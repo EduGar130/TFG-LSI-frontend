@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { CardModule } from 'primeng/card';
+import { Inventory } from '../../model/inventory.model';
 
 @Component({
   selector: 'app-detalle-producto-dialog',
@@ -12,7 +13,7 @@ import { CardModule } from 'primeng/card';
   imports: [CommonModule, ButtonModule, CardModule]
 })
 export class DetalleProductoDialogComponent {
-  producto: any;
+  producto: Inventory;
 
   constructor(
     public dialogRef: DynamicDialogRef,

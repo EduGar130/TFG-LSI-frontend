@@ -3,7 +3,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
-import { Button, ButtonModule } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
 import { Warehouse } from '../../../inventario/model/warehouse.model';
 import { PERMISO_FULL_ACCESS, PERMISO_MANAGE_INVENTORY, PERMISO_VIEW_REPORTS, PERMISO_VIEW_STATS } from '../../../common/constants';
@@ -58,7 +58,7 @@ export class WelcomeComponent implements OnInit {
     this.warehouse = await this.authService.getLocation();
   }
 
-  private updateTime() {
+  updateTime() {
     const now = new Date();
     this.currentTime = now.toLocaleTimeString();
   }
