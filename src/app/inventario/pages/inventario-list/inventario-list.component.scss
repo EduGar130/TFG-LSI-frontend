@@ -1,0 +1,97 @@
+.inventario-container {
+  padding: 2rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inventario-header{
+  display: flex;
+  padding-top: var(--navbar-height);
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 2rem;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+table {
+  width: 100%;
+  max-width: 1200px;
+  min-width: 800px;
+  table-layout: fixed;
+}
+
+th, td {
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-color);
+}
+
+.mat-header-cell, .mat-cell {
+  text-align: center;
+}
+
+.inventario-acciones {
+  background-color:  var(--primary-color) !important;
+  color: #fff;
+  border-radius: 100%;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+}
+
+button[mat-fab] {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.mat-header-cell, .mat-cell {
+  padding: 1rem;
+}
+
+td button {
+  margin-right: 8px;
+}
+
+td button:last-child {
+  margin-right: 0;
+}
+
+.mt-3.d-flex {
+  margin-top: 1rem;
+  display: flex;
+  gap: 10px;
+}
+
+.container {
+  padding: 2rem 6vw 5vh 5vh;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+}

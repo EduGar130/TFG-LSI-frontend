@@ -1,0 +1,91 @@
+<p-toast></p-toast>
+
+<p-card>
+  <form [formGroup]="productoForm" class="p-fluid grid form-grid">
+    <p-tabs [(value)]="activeTab" (valueChange)="onTabChange(activeTab)">
+      <p-tablist>
+          <p-tab value="0">Crear producto</p-tab>
+          <p-tab value="1">Utilizar producto existente</p-tab>
+      </p-tablist>
+      <p-tabpanels>
+          <p-tabpanel value="0">
+            <div class="field col-12 md:col-6 flex-column">
+              <label for="nombre">Nombre del Producto</label>
+              <input id="nombre" type="text" pInputText formControlName="name" />
+              <small *ngIf="productoForm.get('name')?.invalid && productoForm.get('name')?.touched" class="p-error">
+                El nombre es obligatorio.
+              </small>
+            </div>
+
+            <div class="field col-12 md:col-6 flex-column">
+              <label for="descripcion">Descripción</label>
+              <textarea id="descripcion" pTextarea formControlName="description" rows="5"></textarea>
+              <small *ngIf="productoForm.get('description')?.invalid && productoForm.get('description')?.touched" class="p-error">
+                La descripción es obligatoria.
+              </small>
+            </div>
+            
+            <div class="field col-12 md:col-6 flex-column">
+              <label for="precio">Precio</label>
+              <p-inputNumber id="precio" formControlName="price" [min]="0.01" mode="currency" currency="EUR" locale="es-ES"></p-inputNumber>
+              <small *ngIf="productoForm.get('price')?.invalid && productoForm.get('price')?.touched" class="p-error">
+                El precio debe ser mayor a 0.
+              </small>
+            </div>
+        
+            <div class="field col-12 md:col-6 flex-column">
+              <label for="stockMinimo">Stock Mínimo</label>
+              <p-inputNumber id="stockMinimo" formControlName="stockAlertThreshold" [min]="0" mode="decimal" [useGrouping]="false"></p-inputNumber>
+              <small *ngIf="productoForm.get('stockAlertThreshold')?.invalid && productoForm.get('stockAlertThreshold')?.touched" class="p-error">
+                El stock mínimo no puede ser negativo.
+              </small>
+            </div>
+
+            <div class="field col-12 md:col-6 flex-column">
+              <label for="categoria">Categoría</label>
+              <p-select id="categoria" [options]="categorias" formControlName="category" optionLabel="name" placeholder="Selecciona una categoría"></p-select>
+              <small *ngIf="productoForm.get('category')?.invalid && productoForm.get('category')?.touched" class="p-error">
+                La categoría es obligatoria.
+              </small>
+            </div>
+          </p-tabpanel>
+
+          <p-tabpanel value="1">
+            <div class="field col-12 md:col-6 flex-column">
+              <label for="productoExistente">Seleccionar Producto Existente</label>
+              <p-select id="productoExistente" [options]="productos" formControlName="existingProduct" optionLabel="sku" placeholder="Selecciona un producto" [filter]="true"></p-select>
+              <small *ngIf="productoForm.get('existingProduct')?.invalid && productoForm.get('existingProduct')?.touched" class="p-error">
+                Debes seleccionar un producto existente.
+              </small>
+            </div>
+
+            <div class="field col-12 md:col-6 flex-column">
+              <label for="nombre">Nombre del Producto</label>
+              <input id="nombre" type="text" pInputText disabled [value]="productoForm.get('existingProduct')?.value?.name"/>
+            </div>
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+
+    <div class="field col-12 md:col-6 flex-column">
+      <label for="almacen">Almacén</label>
+      <p-select id="almacen" [options]="almacenes" formControlName="warehouse" optionLabel="name" placeholder="Selecciona un almacén"></p-select>
+      <small *ngIf="productoForm.get('warehouse')?.invalid && productoForm.get('warehouse')?.touched" class="p-error">
+        El almacén es obligatorio.
+      </small>
+    </div>
+
+    <div class="field col-12 md:col-6 flex-column">
+      <label for="cantidad">Cantidad</label>
+      <p-inputNumber id="cantidad" formControlName="quantity" [min]="1" mode="decimal" [useGrouping]="false"></p-inputNumber>
+      <small *ngIf="productoForm.get('quantity')?.invalid && productoForm.get('quantity')?.touched" class="p-error">
+        La cantidad debe ser al menos 1.
+      </small>
+    </div>
+  </form>
+</p-card>
+
+<div class="dialog-actions">
+  <button pButton type="button" label="Cancelar" class="btn-cancelar" (click)="cancelar()"></button>
+  <button pButton type="button" label="Guardar" icon="pi pi-check" class="btn-guardar" (click)="guardar()"></button>
+</div>

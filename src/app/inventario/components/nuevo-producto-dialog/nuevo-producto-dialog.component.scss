@@ -1,0 +1,68 @@
+.nuevo-producto-dialog {
+  padding: 2rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  max-width: 700px;
+  margin: 0 auto;
+  border-radius: 8px;
+}
+
+.titulo-dialog {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.form-grid {
+  gap: 1.5rem;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  mat-icon {
+    font-size: 1.2rem;
+  }
+}
+
+.btn-cancelar {
+  color: #f44336;
+  background-color: transparent;
+  border: 1px solid #f44336;
+}
+
+.btn-guardar {
+  color: #fff !important;
+  background-color: #3f51b5 !important;
+  border: 1px solid #3f51b5;
+
+  &:hover {
+    background-color: rgb(48, 69, 187) !important;
+    box-shadow: 0 4px 8px rgba(63, 81, 181, 0.2);
+  }
+}
+
+textarea {
+  min-height: 100px;
+}
+
+
+.field {
+  display: flex;
+  flex-direction: column;
+}

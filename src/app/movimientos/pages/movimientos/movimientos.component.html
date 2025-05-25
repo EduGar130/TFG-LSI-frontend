@@ -1,0 +1,152 @@
+<p-card class="movimientos-container" aria-label="Panel de gestión de movimientos de inventario">
+  <div>
+    <ng-container *ngIf="esManager; else soloRegistrar">
+      <p-tabs value="0" aria-label="Opciones de movimientos">
+        <p-tablist role="tablist">
+          <p-tab value="0" aria-label="Registrar movimiento">Registrar movimiento</p-tab>
+          <p-tab value="1" aria-label="Consultar movimientos">Consultar movimientos</p-tab>
+        </p-tablist>
+        <p-tabpanels>
+          <p-tabpanel value="0">
+            <ng-container *ngTemplateOutlet="formularioMovimiento"></ng-container>
+          </p-tabpanel>
+          <p-tabpanel value="1">
+            <h2 id="heading-consulta">Consulta de movimientos</h2>
+            <p-table aria-labelledby="heading-consulta" [value]="movimientos" [paginator]="true" [rows]="5"
+              [globalFilterFields]="['almacen', 'producto', 'tipo', 'cantidad', 'fecha']">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th scope="col">Almacén</th>
+                  <th scope="col">Producto</th>
+                  <th scope="col">Tipo</th>
+                  <th scope="col">Cantidad</th>
+                  <th scope="col" *ngIf="esManager">Usuario</th>
+                  <th scope="col">Fecha</th>
+                  <th scope="col">Hora</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-movimiento let-i="rowIndex">
+                <tr [class]="i % 2 === 0 ? 'even-row' : 'odd-row'">
+                  <td class="no-wrap">{{ movimiento.warehouse.name }}</td>
+                  <td class="no-wrap">{{ movimiento.product.name }}</td>
+                  <td class="no-wrap">{{ movimiento.type === 'SALE' ? 'Venta' : (movimiento.type === 'ADD' ? 'Reposición' : (movimiento.type === 'REMOVE' ? 'Eliminación' : movimiento.type)) }}</td>
+                  <td>{{ movimiento.quantity }}</td>
+                  <td *ngIf="esManager" class="no-wrap">{{ movimiento.user.username }}</td>
+                  <td class="no-wrap">{{ movimiento.createdAt | date: 'dd/MM/yyyy' }}</td>
+                  <td class="no-wrap">{{ movimiento.createdAt | date: 'HH:mm:ss' }}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+    </ng-container>
+
+    <ng-template #soloRegistrar>
+      <ng-container *ngTemplateOutlet="formularioMovimiento"></ng-container>
+    </ng-template>
+
+    <ng-template #formularioMovimiento>
+      <h2 id="heading-formulario">¡Registra un nuevo movimiento!</h2>
+
+      <div class="form-group flex-container" aria-labelledby="heading-formulario">
+        <p-select
+          aria-label="Seleccionar almacén"
+          [options]="almacenes"
+          optionLabel="name"
+          placeholder="Seleccionar almacén"
+          [(ngModel)]="almacenSeleccionado"
+          [filter]="true"
+          [showClear]="true"
+          (onChange)="cargarProductosPorAlmacen()"
+          [disabled]="!esAdmin"
+          dropdownIcon="pi pi-warehouse">
+        </p-select>
+
+        <p-select
+          aria-label="Seleccionar producto"
+          [disabled]="esAdmin && !almacenSeleccionado"
+          [options]="productos"
+          optionLabel="product.sku"
+          placeholder="Seleccionar producto"
+          [(ngModel)]="inventarioSeleccionado"
+          (onChange)="cargarProductoEnTransaccion()"
+          [filter]="true"
+          [showClear]="true"
+          dropdownIcon="pi pi-barcode">
+        </p-select>
+
+        <span *ngIf="inventarioSeleccionado" class="cantidad-disponible p-text-secondary" style="margin-left:1rem;">
+          Cantidad disponible: 
+          <p-badge [value]="inventarioSeleccionado.quantity" severity="info" aria-label="Cantidad disponible"></p-badge>
+        </span>
+      </div>
+
+      <div class="form-group flex-container">
+        <p-inputNumber
+          [(ngModel)]="movimiento.quantity"
+          inputId="cantidad"
+          [min]="1"
+          placeholder="Cantidad"
+          aria-label="Cantidad">
+        </p-inputNumber>
+
+        <input
+          pInputText
+          type="text"
+          inputId="comentario"
+          placeholder="Comentario"
+          [(ngModel)]="movimiento.description"
+          name="comentario"
+          aria-label="Comentario sobre el movimiento"/>
+      </div>
+
+      <div class="accion-container" role="group" aria-label="Selecciona el tipo de movimiento">
+        <button
+          pButton
+          type="button"
+          label="Vender"
+          icon="pi pi-shopping-cart"
+          (click)="selectVender()"
+          [ngClass]="{ 'selected': movimiento.type === TransactionType.SALE }"
+          class="vender"
+          [attr.aria-pressed]="movimiento.type === TransactionType.SALE">
+        </button>
+
+        <button
+          pButton
+          type="button"
+          label="Eliminar"
+          icon="pi pi-delete-left"
+          (click)="selectEliminar()"
+          [ngClass]="{ 'selected': movimiento.type === TransactionType.REMOVE }"
+          class="eliminar"
+          [attr.aria-pressed]="movimiento.type === TransactionType.REMOVE">
+        </button>
+
+        <button
+          pButton
+          type="button"
+          label="Reponer"
+          icon="pi pi-warehouse"
+          (click)="selectReponer()"
+          [ngClass]="{ 'selected': movimiento.type === TransactionType.ADD }"
+          class="reponer"
+          [attr.aria-pressed]="movimiento.type === TransactionType.ADD">
+        </button>
+      </div>
+
+      <div class="form-group center">
+        <button
+          pButton
+          type="button"
+          label="Registrar Movimiento"
+          icon="pi pi-check"
+          (click)="registrarMovimiento()"
+          aria-label="Registrar el movimiento">
+        </button>
+      </div>
+    </ng-template>
+  </div>
+</p-card>
+<p-toast aria-live="polite" aria-atomic="true" />

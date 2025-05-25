@@ -1,0 +1,30 @@
+<div class="inbox-container" *ngIf="datosCargados && alertas.length > 0; else noAlerts">
+    <div class="notif" *ngFor="let alerta of alertas; let i = index">
+        <p-card class="card">
+            <div class="card-a">
+                <button class="bell">
+                    <i class="pi pi-bell bell-move"></i>
+                </button>
+                <div>
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            {{ alerta.product.name}}
+                            {{ alerta.alertType }}
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            {{ alerta.message }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>
+<ng-template #noAlerts>
+<div class="inbox-container">
+    <h3>No hay alertas</h3>
+    <p>Cuando haya alertas, se mostrarán aquí.</p>
+</div>
+</ng-template>

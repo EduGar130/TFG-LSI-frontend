@@ -1,0 +1,54 @@
+<div *ngIf="cargando">
+  <p>Cargando estadísticas...</p>
+</div>
+
+<div *ngIf="!cargando" class="stat-container">
+  <h2>Estadísticas de Inventario</h2>
+  <p-button label="Generar reporte PDF" icon="pi pi-file-pdf" (click)="generarReportePDF()"></p-button>
+  <div class="chart-box" style="flex: 1 1 100%;">
+    <h3>Ventas mensuales por producto</h3>
+    
+    <p-select 
+      [options]="productos" 
+      optionLabel="product.sku"
+      [(ngModel)]="productoSeleccionado" 
+      placeholder="Seleccionar producto"
+      (onChange)="onSkuChange()"
+      [filter]="true" 
+      [showClear]="true">
+    </p-select>
+  
+    <p-chart 
+      type="line" 
+      [data]="chartVentasMensuales" 
+      [options]="optionsV" 
+      [responsive]="true" 
+      *ngIf="chartVentasMensuales">
+    </p-chart>
+  </div>
+  
+    <div class="chart-wrapper">
+      <h3>Transacciones por tipo</h3>
+      <p-chart type="doughnut" [data]="chartTipoTransaccion" [options]="optionsR" [responsive]="true"></p-chart>
+    </div>
+
+    <div class="chart-wrapper">
+      <h3>Ventas por categoría</h3>
+      <p-chart type="bar" [data]="chartVentasPorCategoria" [options]="optionsV" [responsive]="true"></p-chart>
+    </div>
+
+    <div class="chart-wrapper">
+      <h3>Ventas por almacén</h3>
+      <p-chart type="bar" [data]="chartVentasPorAlmacen" [options]="optionsV" [responsive]="true"></p-chart>
+    </div>
+
+    <div class="chart-wrapper">
+      <h3>Ranking de empleados</h3>
+      <p-chart type="bar" [data]="chartRankingEmpleados" [options]="optionsV" [responsive]="true"></p-chart>
+    </div>
+
+    <div class="chart-wrapper">
+      <h3>Top 5 productos más vendidos</h3>
+      <p-chart type="bar" [data]="chartRankingProductos" [options]="optionsHorizontal" [responsive]="true"></p-chart>
+    </div>
+</div>

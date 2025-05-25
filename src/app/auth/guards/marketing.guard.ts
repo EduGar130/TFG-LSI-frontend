@@ -1,0 +1,21 @@
+import { Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MarketingGuard implements CanActivate {
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  canActivate(): boolean {
+    if (this.authService.hasPermiso('view_reports') && this.authService.hasPermiso('view_stats')) {
+      return true;
+    } else {
+      this.authService.logout();
+      this.router.navigate(['/']);
+      return false;
+    }
+  }
+}

@@ -1,0 +1,26 @@
+ 
+  /* =============================
+    Reglas base
+    ============================= */
+  html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Transición global suave */
+  body, body * {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* =============================
+    Utilidades comunes
+    ============================= */
+  .ml-2 { margin-left: 0.5rem; }
+  .mt-2 { margin-top: 0.5rem; }
+  .mt-4 { margin-top: 1rem; }
+  
+  

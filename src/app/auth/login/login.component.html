@@ -1,0 +1,35 @@
+<div class="login-container">
+  <h2>Iniciar sesión</h2>
+
+  <div class="p-fluid">
+    <div class="field">
+      <label for="username">Usuario</label>
+      <div class="p-inputgroup">
+        <input id="username" type="text" pInputText [(ngModel)]="username" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="password">Contraseña</label>
+      <div class="p-inputgroup">
+        <input id="password"
+               [type]="showPassword ? 'text' : 'password'"
+               pInputText
+               [(ngModel)]="password" />
+        <button pButton type="button"
+                icon="{{ showPassword ? 'pi pi-eye-slash' : 'pi pi-eye' }}"
+                class="p-button-text"
+                (click)="togglePasswordVisibility()">
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="mt-2">
+      <p-message severity="error" text="{{ errorMessage }}"></p-message>
+    </div>
+
+    <div class="mt-4 center">
+      <button pButton type="button" label="Entrar" icon="pi pi-sign-in" (click)="onSubmit()"></button>
+    </div>
+  </div>
+</div>

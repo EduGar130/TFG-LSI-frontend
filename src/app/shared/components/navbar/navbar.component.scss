@@ -1,0 +1,13 @@
+.horizontal-navbar {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+
+  max-width: 85px;
+  width: 10vw;
+  display: flex;
+  flex-direction: column;
+  padding: 0.4em;
+  z-index: 1000;
+}

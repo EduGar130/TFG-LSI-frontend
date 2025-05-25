@@ -1,0 +1,177 @@
+Listado de rutas de carpetas
+El número de serie del volumen es 4854-9370
+C:.
+¦   estructura_front.txt
+¦   index.html
+¦   main.ts
+¦   styles.scss
+¦   
++---app
+    ¦   app.component.html
+    ¦   app.component.scss
+    ¦   app.component.spec.ts
+    ¦   app.component.ts
+    ¦   app.config.ts
+    ¦   app.routes.ts
+    ¦   
+    +---admin
+    ¦   ¦   admin-routing.module.ts
+    ¦   ¦   admin.module.ts
+    ¦   ¦   
+    ¦   +---components
+    ¦   ¦   +---detalle-usuario-dialog
+    ¦   ¦   ¦       detalle-usuario-dialog.component.html
+    ¦   ¦   ¦       detalle-usuario-dialog.component.scss
+    ¦   ¦   ¦       detalle-usuario-dialog.component.spec.ts
+    ¦   ¦   ¦       detalle-usuario-dialog.component.ts
+    ¦   ¦   ¦       
+    ¦   ¦   +---editar-usuario-dialog
+    ¦   ¦           editar-usuario-dialog.component.html
+    ¦   ¦           editar-usuario-dialog.component.scss
+    ¦   ¦           editar-usuario-dialog.component.spec.ts
+    ¦   ¦           editar-usuario-dialog.component.ts
+    ¦   ¦           
+    ¦   +---models
+    ¦   ¦       usuario.model.ts
+    ¦   ¦       
+    ¦   +---pages
+    ¦       +---users-list
+    ¦               users-list.component.html
+    ¦               users-list.component.scss
+    ¦               users-list.component.spec.ts
+    ¦               users-list.component.ts
+    ¦               
+    +---auth
+    ¦   ¦   auth-routing.module.ts
+    ¦   ¦   auth.module.ts
+    ¦   ¦   
+    ¦   +---guards
+    ¦   ¦       admin.guard.spec.ts
+    ¦   ¦       admin.guard.ts
+    ¦   ¦       auth.guard.spec.ts
+    ¦   ¦       auth.guard.ts
+    ¦   ¦       
+    ¦   +---login
+    ¦   ¦       login.component.html
+    ¦   ¦       login.component.scss
+    ¦   ¦       login.component.spec.ts
+    ¦   ¦       login.component.ts
+    ¦   ¦       
+    ¦   +---model
+    ¦   ¦       role.model.ts
+    ¦   ¦       user.model.ts
+    ¦   ¦       
+    ¦   +---services
+    ¦           auth.interceptor.ts
+    ¦           auth.service.spec.ts
+    ¦           auth.service.ts
+    ¦           
+    +---data
+    ¦       productos.data.ts
+    ¦       
+    +---home
+    ¦   ¦   home-routing.module.ts
+    ¦   ¦   home.module.ts
+    ¦   ¦   
+    ¦   +---pages
+    ¦       +---welcome
+    ¦               welcome.component.html
+    ¦               welcome.component.scss
+    ¦               welcome.component.spec.ts
+    ¦               welcome.component.ts
+    ¦               
+    +---inventario
+    ¦   ¦   inventario-routing.module.ts
+    ¦   ¦   inventario.module.ts
+    ¦   ¦   
+    ¦   +---components
+    ¦   ¦   +---confirm-dialog
+    ¦   ¦   ¦       confirm-dialog.component.html
+    ¦   ¦   ¦       confirm-dialog.component.scss
+    ¦   ¦   ¦       confirm-dialog.component.spec.ts
+    ¦   ¦   ¦       confirm-dialog.component.ts
+    ¦   ¦   ¦       
+    ¦   ¦   +---detalle-producto-dialog
+    ¦   ¦   ¦       detalle-producto-dialog.component.html
+    ¦   ¦   ¦       detalle-producto-dialog.component.scss
+    ¦   ¦   ¦       detalle-producto-dialog.component.spec.ts
+    ¦   ¦   ¦       detalle-producto-dialog.component.ts
+    ¦   ¦   ¦       
+    ¦   ¦   +---editar-producto-dialog
+    ¦   ¦   ¦       editar-producto-dialog.component.html
+    ¦   ¦   ¦       editar-producto-dialog.component.scss
+    ¦   ¦   ¦       editar-producto-dialog.component.spec.ts
+    ¦   ¦   ¦       editar-producto-dialog.component.ts
+    ¦   ¦   ¦       
+    ¦   ¦   +---nuevo-producto-dialog
+    ¦   ¦           nuevo-producto-dialog.component.html
+    ¦   ¦           nuevo-producto-dialog.component.scss
+    ¦   ¦           nuevo-producto-dialog.component.spec.ts
+    ¦   ¦           nuevo-producto-dialog.component.ts
+    ¦   ¦           
+    ¦   +---model
+    ¦   ¦       category.model.ts
+    ¦   ¦       inventory.model.ts
+    ¦   ¦       product.model.ts
+    ¦   ¦       warehouse.model.ts
+    ¦   ¦       
+    ¦   +---pages
+    ¦   ¦   +---inventario-list
+    ¦   ¦           inventario-list.component.html
+    ¦   ¦           inventario-list.component.scss
+    ¦   ¦           inventario-list.component.spec.ts
+    ¦   ¦           inventario-list.component.ts
+    ¦   ¦           
+    ¦   +---services
+    ¦           category.service.ts
+    ¦           inventario.service.spec.ts
+    ¦           inventario.service.ts
+    ¦           product.service.ts
+    ¦           warehouse.service.ts
+    ¦           
+    +---movimientos
+    ¦   ¦   movimientos-routing.module.ts
+    ¦   ¦   movimientos.module.ts
+    ¦   ¦   
+    ¦   +---model
+    ¦   ¦       transaction.model.ts
+    ¦   ¦       
+    ¦   +---pages
+    ¦   ¦   +---movimientos
+    ¦   ¦           movimientos.component.html
+    ¦   ¦           movimientos.component.scss
+    ¦   ¦           movimientos.component.spec.ts
+    ¦   ¦           movimientos.component.ts
+    ¦   ¦           
+    ¦   +---services
+    ¦           transaction.service.ts
+    ¦           
+    +---notificaciones
+    ¦       notificaciones-routing.module.ts
+    ¦       notificaciones.module.ts
+    ¦       
+    +---shared
+    ¦   ¦   shared.module.ts
+    ¦   ¦   
+    ¦   +---components
+    ¦   ¦   +---navbar
+    ¦   ¦           navbar.component.html
+    ¦   ¦           navbar.component.scss
+    ¦   ¦           navbar.component.spec.ts
+    ¦   ¦           navbar.component.ts
+    ¦   ¦           
+    ¦   +---services
+    ¦           theme.service.spec.ts
+    ¦           theme.service.ts
+    ¦           
+    +---stats
+        ¦   stats-routing.module.ts
+        ¦   stats.module.ts
+        ¦   
+        +---pages
+            +---monitoring
+                    monitoring.component.html
+                    monitoring.component.scss
+                    monitoring.component.spec.ts
+                    monitoring.component.ts
+                    

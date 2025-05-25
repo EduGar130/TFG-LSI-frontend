@@ -1,0 +1,18 @@
+<div class="p-fluid">
+  <h3>Detalles del Usuario</h3>
+
+  <div class="field"><strong>Nombre:</strong> {{ usuario.nombre }}</div>
+  <div class="field"><strong>Email:</strong> {{ usuario.email }}</div>
+  <div class="field"><strong>Teléfono:</strong> {{ usuario.telefono }}</div>
+  <div class="field"><strong>DNI:</strong> {{ usuario.dni }}</div>
+  <div class="field"><strong>Fecha de nacimiento:</strong> {{ usuario.fecha_nacimiento }}</div>
+  <div class="field"><strong>Fecha de alta:</strong> {{ usuario.fecha_alta }}</div>
+  <div class="field"><strong>Fecha de baja:</strong> {{ usuario.fecha_baja || '—' }}</div>
+  <div class="field"><strong>Última modificación:</strong> {{ usuario.fecha_modificacion }}</div>
+  <div class="field"><strong>Última conexión:</strong> {{ usuario.fecha_ultima_conexion }}</div>
+  <div class="field"><strong>Rol:</strong> {{ usuario.rol }}</div>
+
+  <div class="flex justify-content-end mt-4">
+    <button pButton label="Cerrar" class="p-button-secondary" (click)="cerrar()"></button>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="editar-usuario-dialog">
+  <div class="p-fluid grid form-grid">
+    <div class="field col-12 md:col-6 flex-column">
+      <label for="rol">Rol</label>
+      <p-select 
+        id="rol" 
+        [options]="roles" 
+        [(ngModel)]="usuario.role" 
+        optionLabel="name" 
+        placeholder="Selecciona un rol" 
+        (onChange)="onRolSeleccionado($event)">
+      </p-select>
+    </div>
+
+    <div class="field col-12 md:col-6 flex-column">
+      <label for="almacen">Almacén</label>
+      <p-select 
+        id="almacen" 
+        [options]="almacenes" 
+        [disabled]="esGlobal" 
+        [(ngModel)]="usuario.warehouse" 
+        optionLabel="name" 
+        placeholder="Selecciona un almacén">
+      </p-select>
+    </div>
+
+    <div class="field col-12 md:col-6 flex-column">
+      <label for="usuario">Usuario</label>
+      <input id="usuario" type="text" pInputText [(ngModel)]="usuario.username" />
+    </div>
+
+    <div class="field col-12 md:col-6 flex-column">
+      <label for="password">Contraseña</label>
+      <input id="password" type="password" pInputText [(ngModel)]="usuario.passwordHash" />
+    </div>
+
+    <div class="field col-12 md:col-6 flex-column">
+      <label for="email">Email</label>
+      <input id="email" type="email" pInputText [(ngModel)]="usuario.email" />
+    </div>
+  </div>
+
+  <div class="dialog-actions">
+    <button pButton type="button" label="Cancelar" class="btn-cancelar" (click)="cancelar()"></button>
+    <button pButton type="button" label="Guardar" icon="pi pi-check" class="btn-guardar" (click)="guardar()"></button>
+  </div>
+</div>

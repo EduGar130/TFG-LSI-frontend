@@ -1,0 +1,30 @@
+/**
+ * Autor: Eduardo García Romera
+ * DNI: 54487155V
+ * Correo: egarcia3266@alumno.uned.es
+ * Título: Desarrollo de una aplicación para la gestión de inventario Online
+ * Descripción: Estilos para la página de Login, adaptados a tema claro y oscuro.
+ * Trabajo de Fin de Grado - UNED
+ * Derechos: Este código es propiedad de Eduardo García Romera y se reserva el derecho de uso, distribución y modificación.
+ */
+
+ .login-container {
+  max-width: 400px;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  margin: auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--p-text-color);
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}

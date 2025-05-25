@@ -1,0 +1,13 @@
+<p-card header="Bienvenido al sistema de inventario" class="welcome-container">
+    <h2>¡Hola {{ username }}!</h2>
+    <p>Son las <strong>{{ currentTime }}</strong></p>
+    <p *ngIf="!esAdmin && warehouse">Estás en <strong>{{ warehouse.name }}</strong></p>
+    <p *ngIf="esAdmin">Como administrador tienes acceso a <strong>todos</strong> los almacenes</p>
+    <p *ngIf="esMarketing">Como consultor de marketing tienes acceso a las estadísiticas generales</p>
+    <div class="inline-container">
+        <h3>¡Hora de navegar!</h3>
+        <p-button label="¿Vamos?" icon="pi pi-send" class="shake" (click)="navigateInventory()" *ngIf="esReponedor"></p-button>
+        <p-button label="¿Vamos?" icon="pi pi-send" class="shake" (click)="navigateStats()" *ngIf="esMarketing"></p-button>
+    </div>
+</p-card>
+  

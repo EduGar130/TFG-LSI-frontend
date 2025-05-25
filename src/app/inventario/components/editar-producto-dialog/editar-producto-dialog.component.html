@@ -1,0 +1,43 @@
+  <p-card>
+      <div class="p-fluid grid form-grid">
+        <div class="field col-12 md:col-6 flex-column">
+          <label for="nombre">Nombre del Producto</label>
+          <input id="nombre" type="text" pInputText [(ngModel)]="producto.product.name" />
+        </div>
+  
+        <div class="field col-12 md:col-6 flex-column">
+          <label for="descripcion">Descripción</label>
+          <textarea id="descripcion" pTextarea [(ngModel)]="producto.product.description" rows="5"></textarea>
+        </div>
+  
+        <div class="field col-12 md:col-6 flex-column">
+          <label for="cantidad">Cantidad</label>
+          <p-inputNumber id="cantidad" [(ngModel)]="producto.quantity" [min]="1" mode="decimal" [useGrouping]="false"></p-inputNumber>
+        </div>
+
+        <div class="field col-12 md:col-6 flex-column">
+          <label for="categoria">Categoría</label>
+          <p-select id="categoria" [options]="categorias" [(ngModel)]="producto.product.category" optionLabel="name" placeholder="Selecciona una categoría"></p-select>
+        </div>
+  
+        <div class="field col-12 md:col-6 flex-column">
+          <label for="almacen">Almacén</label>
+          <p-select id="almacen" [options]="almacenes" [(ngModel)]="producto.warehouse" optionLabel="name" placeholder="Selecciona un almacén"></p-select>
+        </div>
+  
+        <div class="field col-12 md:col-6 flex-column">
+          <label for="precio">Precio</label>
+          <p-inputNumber id="precio" [(ngModel)]="producto.product.price" [min]="0.01" mode="currency" currency="EUR" locale="es-ES"></p-inputNumber>
+        </div>
+  
+        <div class="field col-12 md:col-6 flex-column">
+          <label for="stockMinimo">Stock Mínimo</label>
+          <p-inputNumber id="stockMinimo" [(ngModel)]="producto.product.stockAlertThreshold" [min]="0" mode="decimal" [useGrouping]="false"></p-inputNumber>
+        </div>
+      </div>
+    </p-card>
+  
+    <div class="dialog-actions">
+      <button pButton type="button" label="Cancelar" class="btn-cancelar" (click)="cancelar()"></button>
+      <button pButton type="button" label="Guardar" icon="pi pi-check" class="btn-guardar" (click)="guardar()"></button>
+    </div>

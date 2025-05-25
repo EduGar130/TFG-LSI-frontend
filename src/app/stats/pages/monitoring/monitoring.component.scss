@@ -1,0 +1,21 @@
+.stat-container {
+    color: var(--p-text-color);
+    padding-left: 5%;
+    padding-right: 10%;
+}
+
+.chart-container {
+  height: 70vh;              // Altura deseada
+  width: 100%;               // O ajusta según necesidad
+  display: flex;
+  justify-content: center;   // Centra horizontalmente
+  align-items: center;       // Centra verticalmente
+  
+}
+
+:host ::ng-deep canvas {
+  height: 100% !important;
+  max-height: 70vh;   // Asegura que el canvas ocupe todo el contenedor
+  width: auto !important;    // Ajusta el ancho de forma proporcional
+  max-width: 90vw;  // Limita el ancho máximo del canvas
+}

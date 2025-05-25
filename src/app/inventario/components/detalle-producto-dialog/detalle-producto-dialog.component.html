@@ -1,0 +1,70 @@
+<div class="p-4 surface-card border-round-xl shadow-4 w-full">
+  <div class="grid">
+
+    <!-- Sección: Producto -->
+    <div class="col-12 md:col-6">
+      <div class="border-left-3 border-primary pl-3 mt-0">
+        <div class="text-lg font-medium text-900 mb-2 flex align-items-center gap-2">
+          <i class="pi pi-box text-primary"></i> Producto
+        </div>
+        <div class="p-3 surface-100 border-round mb-3">
+          <div class="mb-2">
+            <strong>Nombre:</strong> {{ producto.product.name }}
+          </div>
+          <div class="mb-2">
+            <strong>SKU:</strong> {{ producto.product.sku }}
+          </div>
+          <div class="mb-2">
+            <strong>Descripción:</strong> {{ producto.product.description }}
+          </div>
+          <div class="mb-2">
+            <strong>Precio:</strong> {{ producto.product.price | currency: 'EUR' }}
+          </div>
+          <div>
+            <strong>Stock mínimo:</strong> {{ producto.product.stockAlertThreshold }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección: Categoría -->
+    <div class="col-12 md:col-6">
+      <div class="border-left-3 border-purple-300 pl-3 mt-4">
+        <div class="text-lg font-medium text-900 mb-2 flex align-items-center gap-2">
+          <i class="pi pi-tags text-purple-500"></i> Categoría
+        </div>
+        <div class="p-3 surface-100 border-round mb-3">
+          <div class="mb-2">
+            <strong>Nombre:</strong> {{ producto.product.category.name }}
+          </div>
+          <div>
+            <strong>Descripción:</strong> {{ producto.product.category.description }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección: Almacén -->
+      <div class="border-left-3 border-teal-300 pl-3 mt-4">
+        <div class="text-lg font-medium text-900 mb-2 flex align-items-center gap-2">
+          <i class="pi pi-warehouse text-teal-500"></i> Almacén
+        </div>
+        <div class="p-3 surface-100 border-round">
+          <div class="mb-2">
+            <strong>Nombre:</strong> {{ producto.warehouse.name }}
+          </div>
+          <div class="mb-2">
+            <strong>Ubicación:</strong> {{ producto.warehouse.location }}
+          </div>
+          <div>
+            <strong>Cantidad disponible:</strong> {{ producto.quantity }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Botón de cierre -->
+  <div class="flex justify-content-center mt-5">
+    <button pButton label="Cerrar" class="p-button-outlined p-button-secondary mt-3" (click)="cerrar()"></button>
+  </div>
+</div>
