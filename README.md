@@ -1,59 +1,97 @@
-# InventarioApp
+# Frontend - Inventario Online (Angular 19 + PrimeNG)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.6.
+Este módulo representa la interfaz de usuario del sistema de gestión de inventario online, desarrollado como parte del Trabajo de Fin de Grado en Ingeniería Informática.
 
-## Development server
+## 🚀 Tecnologías
 
-To start a local development server, run:
+* Angular 19
+* PrimeNG
+* TypeScript
+* RxJS
+* SCSS
+* JWT para autenticación (Bearer Token)
 
-```bash
-ng serve
+## 📁 Estructura del Proyecto
+
+```
+code/front/
+├── index.html
+├── main.ts
+├── styles.scss
+└── app/
+    ├── app.component.*           # Raíz de la aplicación
+    ├── app.routes.ts             # Rutas principales
+    ├── admin/                    # Gestión de usuarios (CRUD, roles)
+    ├── auth/                     # Login, guards y autenticación
+    ├── common/                   # Constantes compartidas
+    ├── data/                     # Datos de ejemplo
+    ├── home/                     # Página de bienvenida
+    ├── inventario/               # Gestión de productos y almacenes
+    ├── movimientos/              # Registro de transacciones
+    ├── notificaciones/           # Alertas de stock
+    ├── shared/                   # Componentes comunes (navbar, módulos)
+    └── stats/                    # Dashboard y visualizaciones
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 🧩 Funcionalidades
 
-## Code scaffolding
+* Login con validación y guards por rol
+* Gestión de usuarios, roles y almacenes
+* Visualización y edición de productos
+* Control de inventario distribuido
+* Visualización de movimientos y transacciones
+* Sistema de alertas automáticas
+* Dashboard de estadísticas (ventas, almacenes, ranking...)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🛠️ Servicios y Arquitectura
+
+* Servicios HTTP integrados por módulo (`*.service.ts`)
+* Guards para control de acceso (`*.guard.ts`)
+* Interceptor para añadir token JWT en cada request
+* Componentes reutilizables en `shared/components/`
+
+## ▶️ Cómo ejecutar
+
+### Requisitos
+
+* Node.js 20+
+* Angular CLI instalado globalmente (`npm install -g @angular/cli`)
+
+### Comandos
 
 ```bash
-ng generate component component-name
+cd code/front
+npm install
+npm run start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Por defecto, la aplicación estará disponible en:
 
-```bash
-ng generate --help
+```
+http://localhost:4200/
 ```
 
-## Building
+## 🧪 Pruebas
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Cada módulo incluye sus propios `.spec.ts` para testing unitario de componentes, guards y servicios. Las pruebas se pueden ejecutar con:
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
+## 🔒 Seguridad y Control de Acceso
 
-For end-to-end (e2e) testing, run:
+El frontend utiliza guards por rol y permisos para enviar el token JWT en cada petición al backend. Se valida el acceso tanto a nivel de rutas como de componentes visibles.
 
-```bash
-ng e2e
-```
+## 📊 Visualización de Datos
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+La sección `stats/` muestra KPIs relevantes con gráficos y tablas usando PrimeNG Charts. Está integrada con los endpoints del backend para obtener información dinámica.
 
-## Additional Resources
+## 👨‍💻 Autor
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Eduardo García Romera
+[egarcia3266@alumno.uned.es](mailto:egarcia3266@alumno.uned.es)
+
+
+Este frontend se conecta con el backend ubicado en [code/back/](/code/back) y forma parte de una solución completa de gestión de inventario distribuido.
+
