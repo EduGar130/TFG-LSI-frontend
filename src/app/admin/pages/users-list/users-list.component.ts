@@ -20,6 +20,8 @@ import { NuevoUsuarioDialogComponent } from '../../components/nuevo-usuario-dial
 import { DetalleUsuarioDialogComponent } from '../../components/detalle-usuario-dialog/detalle-usuario-dialog.component';
 import { User } from '../../../auth/model/user.model';
 import { UserService } from '../../services/user.service';
+import { AuthService } from '../../../auth/services/auth.service';
+import { Warehouse } from '../../../inventario/model/warehouse.model';
 
 @Component({
   selector: 'app-users',
@@ -33,13 +35,27 @@ export class UsersListComponent implements OnInit {
   columnas: string[] = ['usario', 'email', 'almacen', 'rol', 'acciones'];
   usuarios: User[] = [];
   usuariosFiltrados: User[] = [];
+  isAdmin: boolean = false;
+  almacen!: Warehouse;
+  usuarioActual!: string;
   cargando: boolean = true;
   filtro: string = '';
 
-  constructor(private dialogService: DialogService, private userService: UserService) {}
+  constructor(
+    private dialogService: DialogService, 
+    private userService: UserService,
+    private authService: AuthService
+  ) {}
 
-  ngOnInit(): void {
-    this.obtenerUsuarios();
+  async ngOnInit(): Promise<void> {
+    this.usuarioActual = this.authService.getUsername();
+    this.isAdmin = this.authService.hasPermiso('full_access');
+    if(!this.isAdmin) {
+      this.almacen = await this.authService.getLocation();
+      this.obtenerUsuarios();
+    } else {
+      this.obtenerUsuarios();
+    }
   }
 
   abrirEditarUsuario(usuario: User): void {
@@ -129,7 +145,11 @@ export class UsersListComponent implements OnInit {
   obtenerUsuarios(): void {
    this.userService.getUsers().subscribe(
       (usuarios: User[]) => {
-        this.usuarios = usuarios;
+        if (!this.isAdmin) {
+          this.usuarios = usuarios.filter(u => u.warehouse?.id === this.almacen.id);
+        } else {
+          this.usuarios = usuarios;
+        }
         this.usuariosFiltrados = [...this.usuarios];
         this.usuariosFiltrados.sort((a, b) => a.id - b.id);
         this.cargando = false;

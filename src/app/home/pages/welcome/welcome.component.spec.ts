@@ -3,7 +3,7 @@ import { WelcomeComponent } from './welcome.component';
 import { AuthService } from '../../../auth/services/auth.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
-import { PERMISO_FULL_ACCESS, PERMISO_MANAGE_INVENTORY, PERMISO_VIEW_REPORTS, PERMISO_VIEW_STATS } from '../../../common/constants';
+import { PERMISO_FULL_ACCESS, PERMISO_VIEW_INVENTORY, PERMISO_VIEW_REPORTS, PERMISO_VIEW_STATS } from '../../../common/constants';
 
 describe('WelcomeComponent', () => {
   let component: WelcomeComponent;
@@ -66,8 +66,8 @@ describe('WelcomeComponent', () => {
     expect(component.esReponedor).toBeFalse();
   });
 
-  it('debería establecer esReponedor y llamar a loadLocation si tiene PERMISO_MANAGE_INVENTORY', async () => {
-    authServiceSpy.hasPermiso.and.callFake((permiso: string) => permiso === PERMISO_MANAGE_INVENTORY);
+  it('debería establecer esReponedor y llamar a loadLocation si tiene PERMISO_VIEW_INVENTORY', async () => {
+    authServiceSpy.hasPermiso.and.callFake((permiso: string) => permiso === PERMISO_VIEW_INVENTORY);
     const loadLocationSpy = spyOn<any>(component, 'loadLocation').and.callThrough();
     await component.ngOnInit();
     expect(component.esReponedor).toBeTrue();

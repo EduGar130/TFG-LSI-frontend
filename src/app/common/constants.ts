@@ -12,6 +12,7 @@ export const PERMISO_FULL_ACCESS = 'full_access';
 export const PERMISO_VIEW_REPORTS = 'view_reports';
 export const PERMISO_VIEW_STATS = 'view_stats';
 export const PERMISO_MANAGE_INVENTORY = 'manage_inventory';
+export const PERMISO_VIEW_INVENTORY = 'view_inventory';
 export const PERMISO_VIEW_ALERTS = 'view_alerts';
 export const PERMISO_MANAGE_TRANSACTIONS = 'manage_transactions';
 export const PERMISO_CREATE_USERS = 'create_users';

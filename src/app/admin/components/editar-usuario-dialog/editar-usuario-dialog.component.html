@@ -20,6 +20,7 @@
         [disabled]="esGlobal" 
         [(ngModel)]="usuario.warehouse" 
         optionLabel="name" 
+        [disabled]="!isAdmin"
         placeholder="Selecciona un almacén">
       </p-select>
     </div>

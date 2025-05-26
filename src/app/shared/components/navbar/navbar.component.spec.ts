@@ -4,7 +4,7 @@ import { ThemeService } from '../../services/theme.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
-import { PERMISO_CREATE_USERS, PERMISO_MANAGE_INVENTORY, PERMISO_MANAGE_TRANSACTIONS, PERMISO_VIEW_ALERTS, PERMISO_VIEW_STATS } from '../../../common/constants';
+import { PERMISO_CREATE_USERS, PERMISO_MANAGE_TRANSACTIONS, PERMISO_VIEW_ALERTS, PERMISO_VIEW_STATS } from '../../../common/constants';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;

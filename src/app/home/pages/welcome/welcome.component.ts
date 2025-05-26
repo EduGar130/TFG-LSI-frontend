@@ -6,7 +6,7 @@ import { PanelModule } from 'primeng/panel';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
 import { Warehouse } from '../../../inventario/model/warehouse.model';
-import { PERMISO_FULL_ACCESS, PERMISO_MANAGE_INVENTORY, PERMISO_VIEW_REPORTS, PERMISO_VIEW_STATS } from '../../../common/constants';
+import { PERMISO_FULL_ACCESS, PERMISO_VIEW_INVENTORY, PERMISO_VIEW_REPORTS, PERMISO_VIEW_STATS } from '../../../common/constants';
 
 @Component({
   selector: 'app-home',
@@ -39,7 +39,7 @@ export class WelcomeComponent implements OnInit {
     } else if(this.authService.hasPermiso(PERMISO_VIEW_STATS) || this.authService.hasPermiso(PERMISO_VIEW_REPORTS)) {
       this.esMarketing = true;
     }
-    else if(this.authService.hasPermiso(PERMISO_MANAGE_INVENTORY)) {
+    else if(this.authService.hasPermiso(PERMISO_VIEW_INVENTORY)) {
       this.esReponedor = true;
       this.loadLocation();
     }

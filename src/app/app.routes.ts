@@ -10,6 +10,7 @@ import { MovimientosComponent } from './movimientos/pages/movimientos/movimiento
 import { NotificacionesLayoutComponent } from './notificaciones/pages/notificaciones-layout/notificaciones-layout.component';
 import { ReponedorGuard } from './auth/guards/reponedor.guard';
 import { MarketingGuard } from './auth/guards/marketing.guard';
+import { ManagerGuard } from './auth/guards/manager.guard';
 
 export const routes: Routes = [
   { path: 'auth/login', component: LoginComponent },
@@ -17,7 +18,7 @@ export const routes: Routes = [
   { path: 'inventario', component: InventarioListComponent, canActivate: [ReponedorGuard] },
   { path: 'notificaciones', component: NotificacionesLayoutComponent, canActivate: [ReponedorGuard] },
   { path: 'movimientos', component: MovimientosComponent, canActivate: [ReponedorGuard] },
-  { path: 'admin', component: UsersListComponent, canActivate: [AdminGuard] },
+  { path: 'admin', component: UsersListComponent, canActivate: [ManagerGuard] },
   { path: 'stats', component: MonitoringComponent, canActivate: [MarketingGuard] },
   { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
   { path: '**', redirectTo: 'auth/login' }

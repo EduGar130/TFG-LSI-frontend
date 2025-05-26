@@ -20,6 +20,7 @@ import { RoleService } from '../../services/role.service';
 import { Warehouse } from '../../../inventario/model/warehouse.model';
 import { User } from '../../../auth/model/user.model';
 import { SelectModule } from 'primeng/select';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-nuevo-usuario-dialog',
@@ -36,28 +37,45 @@ import { SelectModule } from 'primeng/select';
 })
 export class NuevoUsuarioDialogComponent implements OnInit{
   usuario: User;
-
+  isAdmin: boolean = false;
+  almacen!: Warehouse;
   roles: Role[] = [];
   esGlobal: boolean = false;
   almacenes: Warehouse[] = [];
+  cargado: boolean = false;
 
   constructor(
     public dialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig,
     public warehouseService: WarehouseService,
-    public roleService: RoleService
+    public roleService: RoleService,
+    private authSevice: AuthService
   ) {
     this.usuario = { ...config.data };
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.isAdmin = this.authSevice.hasPermiso('full_access');
+
     this.roleService.getRoles().subscribe((roles) => {
-      this.roles = roles;
+      if (!this.isAdmin) {
+        this.roles = roles.filter(role => role.name !== 'admin');
+      } else {
+        this.roles = roles;
+      }
     });
 
-    this.warehouseService.getWarehouses().subscribe((warehouses) => {
-      this.almacenes = warehouses;
-    });
+    if (!this.isAdmin) {
+      this.almacenes = []
+      this.almacenes.push(await this.authSevice.getLocation());
+      this.usuario.warehouse = this.almacenes[0];
+      this.cargado = true;
+    } else {
+      this.warehouseService.getWarehouses().subscribe(async (warehouses) => {
+        this.almacenes = warehouses;
+        this.cargado = true;
+      });
+    }
 
     this.esGlobal = this.usuario.role.isGlobal;
   }

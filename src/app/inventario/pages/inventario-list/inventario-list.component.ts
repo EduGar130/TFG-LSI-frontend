@@ -25,7 +25,9 @@ import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
 import { MessageService } from 'primeng/api';
 import { Toast, ToastModule } from 'primeng/toast';
 import { TabViewModule } from 'primeng/tabview';
-import { API_URL } from '../../../common/constants';
+import { API_URL, PERMISO_MANAGE_INVENTORY } from '../../../common/constants';
+import { AuthService } from '../../../auth/services/auth.service';
+import { Warehouse } from '../../model/warehouse.model';
 
 @Component({
   selector: 'app-inventario-list',
@@ -47,16 +49,32 @@ import { API_URL } from '../../../common/constants';
 export class InventarioListComponent implements OnInit {
   filtro: string = '';
   cargando: boolean = true;
+  puedeEditar: boolean = false;
+  isAdmin: boolean = false;
+  almacen!: Warehouse;
   productosOriginales!: Inventory[];
   productos!: Inventory[];
   productosPorCategoria: { [key: string]: Inventory[] } = {};
 
   uploadUrl: string = `${API_URL}/inventory/import-csv`;
 
-  constructor(private dialogService: DialogService, private inventoryService: InventoryService, private messageService: MessageService) {}
+  constructor(
+    private dialogService: DialogService, 
+    private inventoryService: InventoryService, 
+    private messageService: MessageService,
+    private authService: AuthService
+  ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.isAdmin = this.authService.isAdmin();
+    if(!this.isAdmin) {
+      this.almacen = await this.authService.getLocation();
+    }
+    this.puedeEditar = this.authService.hasPermiso(PERMISO_MANAGE_INVENTORY);
     this.inventoryService.getInventory().subscribe((data) => {
+      if (!this.isAdmin) {
+        data = data.filter((producto) => producto.warehouse.id === this.almacen.id);
+      }
       data.sort((a, b) => a.id - b.id);
       this.productosOriginales = data;
       this.productos = this.productosOriginales;

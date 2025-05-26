@@ -26,15 +26,15 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-usuario>
-      <tr>
+      <tr  [ngClass]="{'usuario-actual': usuarioActual === usuario.username}">
         <td>{{ usuario.username }}</td>
         <td>{{ usuario.email }}</td>
         <td>{{ usuario.warehouse?.name || 'Global' }}</td>
         <td>{{ usuario.role?.name }}</td>
         <td>
           <!-- <button pButton icon="pi pi-search" class="p-button-rounded p-button-info p-button-sm" (click)="abrirDetalleUsuario(usuario)"></button> -->
-          <button pButton icon="pi pi-user-edit" class="p-button-rounded p-button-warning p-button-sm ml-2" (click)="abrirEditarUsuario(usuario)"></button>
-          <button pButton icon="pi pi-user-minus" class="p-button-rounded p-button-danger p-button-sm ml-2" (click)="confirmarEliminarUsuario(usuario)"></button>
+          <button *ngIf="!(usuarioActual === usuario.username)" pButton icon="pi pi-user-edit" class="p-button-rounded p-button-warning p-button-sm ml-2" (click)="abrirEditarUsuario(usuario)"></button>
+          <button *ngIf="!(usuarioActual === usuario.username)" pButton icon="pi pi-user-minus" class="p-button-rounded p-button-danger p-button-sm ml-2" (click)="confirmarEliminarUsuario(usuario)"></button>
         </td>
       </tr>
     </ng-template>

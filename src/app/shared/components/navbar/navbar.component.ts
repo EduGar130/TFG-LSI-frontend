@@ -17,7 +17,7 @@ import { ButtonModule } from 'primeng/button';
 import { ThemeService } from '../../services/theme.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { MenubarModule } from 'primeng/menubar';
-import { PERMISO_CREATE_USERS, PERMISO_MANAGE_INVENTORY, PERMISO_MANAGE_TRANSACTIONS, PERMISO_VIEW_ALERTS, PERMISO_VIEW_STATS } from '../../../common/constants';
+import { PERMISO_CREATE_USERS, PERMISO_MANAGE_TRANSACTIONS, PERMISO_VIEW_ALERTS, PERMISO_VIEW_INVENTORY, PERMISO_VIEW_STATS } from '../../../common/constants';
 
 
 @Component({
@@ -86,7 +86,7 @@ export class NavbarComponent implements OnInit {
       });
     }
 
-    if (this.authService.hasPermiso(PERMISO_MANAGE_INVENTORY)) {
+    if (this.authService.hasPermiso(PERMISO_VIEW_INVENTORY)) {
       items.unshift({
         icon: 'pi pi-clipboard',
         tooltip: 'Inventario',

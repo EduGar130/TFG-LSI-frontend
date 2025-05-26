@@ -14,7 +14,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { WarehouseService } from '../../inventario/services/warehouse.service';
 import { Warehouse } from '../../inventario/model/warehouse.model';
-import { API_URL } from '../../common/constants';
+import { API_URL, PERMISO_CREATE_USERS, PERMISO_MANAGE_INVENTORY, PERMISO_MANAGE_TRANSACTIONS, PERMISO_VIEW_ALERTS, PERMISO_VIEW_INVENTORY, PERMISO_VIEW_REPORTS, PERMISO_VIEW_STATS } from '../../common/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -140,7 +140,7 @@ export class AuthService {
     if (permisos.includes('full_access')) {
       return true;
     }
-    return permisos.includes('create_users') && permisos.includes('manage_inventory') && permisos.includes('view_alerts') && permisos.includes('manage_transactions');    
+    return permisos.includes(PERMISO_CREATE_USERS) && permisos.includes(PERMISO_MANAGE_INVENTORY) && permisos.includes(PERMISO_VIEW_ALERTS) && permisos.includes(PERMISO_MANAGE_TRANSACTIONS);    
   }
 
   isMarketing(): boolean {
@@ -151,7 +151,7 @@ export class AuthService {
     if (permisos.includes('full_access')) {
       return true;
     }
-    return permisos.includes('view_stats') && permisos.includes('view_reports');
+    return permisos.includes(PERMISO_VIEW_STATS) && permisos.includes(PERMISO_VIEW_REPORTS);
   }
 
   private hasToken(): boolean {
@@ -166,6 +166,6 @@ export class AuthService {
     if (permisos.includes('full_access')) {
       return true;
     }
-    return permisos.includes('manage_inventory') && permisos.includes('view_alerts') && permisos.includes('manage_transactions');
+    return permisos.includes(PERMISO_VIEW_INVENTORY) && permisos.includes(PERMISO_VIEW_ALERTS) && permisos.includes(PERMISO_MANAGE_TRANSACTIONS);
   }
 }

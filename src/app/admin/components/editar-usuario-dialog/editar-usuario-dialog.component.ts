@@ -20,6 +20,7 @@ import { RoleService } from '../../services/role.service';
 import { Warehouse } from '../../../inventario/model/warehouse.model';
 import { User } from '../../../auth/model/user.model';
 import { SelectModule } from 'primeng/select';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-editar-usuario-dialog',
@@ -40,19 +41,26 @@ export class EditarUsuarioDialogComponent implements OnInit{
   roles: Role[] = [];
   esGlobal: boolean = false;
   almacenes: Warehouse[] = [];
+  isAdmin: boolean = false;
 
   constructor(
     public dialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig,
     public warehouseService: WarehouseService,
-    public roleService: RoleService
+    public roleService: RoleService,
+    private authService: AuthService
   ) {
     this.usuario = { ...config.data };
   }
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.hasPermiso('full_access');
     this.roleService.getRoles().subscribe((roles) => {
-      this.roles = roles;
+      if (!this.isAdmin) {
+        this.roles = roles.filter(role => role.name !== 'admin');
+      } else {
+        this.roles = roles;
+      }
     });
 
     this.warehouseService.getWarehouses().subscribe((warehouses) => {

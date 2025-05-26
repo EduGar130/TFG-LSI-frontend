@@ -1,4 +1,4 @@
-<div class="editar-usuario-dialog">
+<div class="editar-usuario-dialog" *ngIf="cargado">
   <div class="p-fluid grid form-grid">
     <div class="field col-12 md:col-6 flex-column">
       <label for="rol">Rol</label>
@@ -20,7 +20,8 @@
         [disabled]="esGlobal" 
         [(ngModel)]="usuario.warehouse" 
         optionLabel="name" 
-        placeholder="Selecciona un almacén">
+        placeholder="Selecciona un almacén"
+        [disabled]="!isAdmin">
       </p-select>
     </div>
 

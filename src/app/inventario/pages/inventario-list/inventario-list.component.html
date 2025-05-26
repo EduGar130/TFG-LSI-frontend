@@ -14,9 +14,10 @@
         cancelLabel="Cancelar"
         accept=".csv"
         maxFileSize="1000000"
-        chooseIcon="pi pi-upload" />
+        chooseIcon="pi pi-upload" 
+        *ngIf="puedeEditar" />
       <button class="button" pButton type="button" label="Descargar CSV" icon="pi pi-download" class="p-button-success" (click)="descargarCsv()"></button>
-      <button class="button" pButton type="button" label="Añadir Producto" icon="pi pi-plus" (click)="abrirDialogoNuevoProducto()"></button>
+      <button class="button" pButton type="button" label="Añadir Producto" icon="pi pi-plus" (click)="abrirDialogoNuevoProducto()" *ngIf="puedeEditar"></button>
       <p-toast />
     </div>
   </div>
@@ -51,9 +52,9 @@
             <td>{{ producto.product.price | currency: 'EUR' }}</td>
             <td>{{ producto.warehouse.name }}</td>
             <td>
-              <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-warning" (click)="editarProducto(producto)"></button>
+              <button *ngIf="puedeEditar" pButton icon="pi pi-pencil" class="p-button-rounded p-button-warning" (click)="editarProducto(producto)"></button>
               <button pButton icon="pi pi-search" class="p-button-rounded p-button-info" (click)="abrirDetalle(producto)"></button>
-              <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="eliminarProducto(producto.id, producto.product.name)"></button>
+              <button *ngIf="puedeEditar" pButton icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="eliminarProducto(producto.id, producto.product.name)"></button>
             </td>
           </tr>
         </ng-template>

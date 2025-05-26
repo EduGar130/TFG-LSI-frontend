@@ -49,6 +49,7 @@ export class MovimientosComponent implements OnInit {
   movimientos!: Transaction[];
   esAdmin: boolean = false;
   esManager: boolean = false;
+  almacen!: Warehouse;
   almacenSeleccionado: Warehouse | null = null;
   inventarioSeleccionado!: Inventory;
   activeTab: number = 0;
@@ -112,7 +113,8 @@ export class MovimientosComponent implements OnInit {
       if(this.authService.isManager()) {
         this.esManager = true;
       }
-      this.almacenSeleccionado = await this.authService.getLocation();
+      this.almacen = await this.authService.getLocation();
+      this.almacenSeleccionado = this.almacen;
       this.warehouseService.getWarehouses().subscribe((data) => {
         data.sort((a, b) => a.id - b.id);
         this.almacenes = data;
@@ -121,6 +123,9 @@ export class MovimientosComponent implements OnInit {
     }
     this.transactionService.getTransactions().subscribe((data) => {
       data.sort((a, b) => a.id - b.id);
+      if (!this.esAdmin) {
+        data = data.filter((movimiento) => movimiento.warehouse.id === this.almacen.id);
+      }
       this.movimientos = data;
     });
   }

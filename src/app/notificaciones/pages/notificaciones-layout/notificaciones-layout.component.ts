@@ -23,6 +23,7 @@ export class NotificacionesLayoutComponent implements OnInit {
   productos!: Inventory[];
   alertas!: Alert[];
   isAdmin: boolean = false;
+  almacen!: Warehouse;
   datosCargados: boolean = false;
 
   constructor(private inventoryService: InventoryService, 
@@ -36,6 +37,13 @@ export class NotificacionesLayoutComponent implements OnInit {
     if(this.isAdmin) {
       this.inventoryService.getInventory().subscribe((data: Inventory[]) => {
         this.productos = data;
+        this.alertService.getAlerts().subscribe((data: Alert[]) => {
+        this.alertas = data;
+        this.alertas = this.alertas.filter((alerta: Alert) => {
+          return alerta;
+        });
+        this.datosCargados = true;
+      });
       });
     } else {
       let warehouse: Warehouse;
@@ -43,12 +51,15 @@ export class NotificacionesLayoutComponent implements OnInit {
       this.inventoryService.getInventoryByWarehouse(warehouse.id).subscribe((data: Inventory[]) => {
         this.productos = data;
       });
+      this.alertService.getAlerts().subscribe((data: Alert[]) => {
+        this.alertas = data;
+        this.alertas = this.alertas.filter((alerta: Alert) => {
+          return alerta.warehouse.id === warehouse.id;
+        });
+        this.datosCargados = true;
+      });
     }
 
-    this.alertService.getAlerts().subscribe((data: Alert[]) => {
-      this.alertas = data;
-      this.datosCargados = true;
-    });
   }
 
   getUnits(alerta: Alert): number {
