@@ -16,17 +16,18 @@ import { WarehouseService } from '../../../inventario/services/warehouse.service
 import { AuthService } from '../../../auth/services/auth.service';
 import { TransactionService } from '../../../movimientos/services/transaction.service';
 import { Transaction } from '../../../movimientos/model/transaction.model';
-import { Product } from '../../../inventario/model/product.model';
 import { Inventory } from '../../../inventario/model/inventory.model';
 import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { ReportService } from '../../services/report.service';
 import { ButtonModule } from 'primeng/button';
+import { TabViewModule } from 'primeng/tabview';
+import { DatePickerModule  } from 'primeng/datepicker';
 
 @Component({
   selector: 'app-estadisticas',
   standalone: true,
-  imports: [CommonModule, ChartModule, SelectModule, FormsModule, ButtonModule],
+  imports: [CommonModule, ChartModule, SelectModule, FormsModule, ButtonModule, TabViewModule, DatePickerModule],
   templateUrl: './monitoring.component.html',
   styleUrls: ['./monitoring.component.scss']
 })
@@ -34,6 +35,8 @@ export class MonitoringComponent implements OnInit {
   cargando: boolean = true;
   movimientos!: Transaction[];
   productos!: Inventory[];
+  rangoFechas!: Date[];
+
 
   chartVentasPorCategoria: any;
   chartTipoTransaccion: any;
@@ -144,7 +147,7 @@ optionsV = {
     private reportService: ReportService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.transactionService.getTransactions().subscribe((data) => {
       this.movimientos = data;
       this.movimientos.sort((a, b) => a.id - b.id);
@@ -298,48 +301,52 @@ optionsV = {
   }
 
   obtenerVentasPorSku(sku: string) {
-    const meses = [
-      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-    ];
-  
-    // Mes actual (0-11)
-    const mesActual = new Date().getMonth();
-  
-    // Rotamos el array para que empiece justo después del mes actual y termine en el actual
-    const mesesRotados = meses.slice(mesActual + 1).concat(meses.slice(0, mesActual + 1));
-  
-    // Filtramos los movimientos por el SKU seleccionado y tipo 'SALE'
-    const ventas = this.movimientos.filter(m =>
-      m.product.sku === sku && m.type.toString() === 'SALE'
-    );
-  
-    // Agrupamos las ventas por nombre de mes capitalizado (en español)
-    const conteo = new Map<string, number>();
-    ventas.forEach(m => {
-      const fecha = new Date(m.createdAt);
-      const mes = fecha.toLocaleString('es', { month: 'long' });
-      const mesCapitalizado = mes.charAt(0).toUpperCase() + mes.slice(1).toLowerCase();
-      conteo.set(mesCapitalizado, (conteo.get(mesCapitalizado) || 0) + m.quantity);
-    });
-  
-    // Solo los meses rotados que tienen ventas
-    const cantidades = mesesRotados.map(m => conteo.get(m) || 0);
-  
-    this.chartVentasMensuales = {
-      labels: mesesRotados,
-      datasets: [
-        {
-          label: `Ventas mensuales (${sku})`,
-          data: cantidades,
-          borderColor: '#42A5F5',
-          backgroundColor: 'rgba(66,165,245,0.2)',
-          fill: true,
-          tension: 0.3
-        }
-      ]
-    };
-  } 
+  if (!sku) {
+    this.chartVentasMensuales = null;
+    return;
+  }
+  const ahora = new Date();
+  const mesActual = ahora.getMonth();
+  const añoActual = ahora.getFullYear();
+
+  const mesesAño = [];
+  for (let i = 11; i >= 0; i--) {
+    const fecha = new Date(añoActual, mesActual - i, 1);
+    const mesNombre = fecha.toLocaleString('es', { month: 'long' });
+    const mesCapitalizado = mesNombre.charAt(0).toUpperCase() + mesNombre.slice(1).toLowerCase();
+    mesesAño.push(`${mesCapitalizado} ${fecha.getFullYear()}`);
+  }
+
+  const ventas = this.movimientos.filter(m =>
+    m.product.sku === sku && m.type.toString() === 'SALE'
+  );
+
+  const conteo = new Map<string, number>();
+  ventas.forEach(m => {
+    const fecha = new Date(m.createdAt);
+    const mesNombre = fecha.toLocaleString('es', { month: 'long' });
+    const mesCapitalizado = mesNombre.charAt(0).toUpperCase() + mesNombre.slice(1).toLowerCase();
+    const clave = `${mesCapitalizado} ${fecha.getFullYear()}`;
+    conteo.set(clave, (conteo.get(clave) || 0) + m.quantity);
+  });
+
+  const cantidades = mesesAño.map(m => conteo.get(m) || 0);
+
+  this.chartVentasMensuales = {
+    labels: mesesAño,
+    datasets: [
+      {
+        label: `Ventas mensuales (${sku})`,
+        data: cantidades,
+        borderColor: '#42A5F5',
+        backgroundColor: 'rgba(66,165,245,0.2)',
+        fill: true,
+        tension: 0.3
+      }
+    ]
+  };
+}
+
 
   generarReportePDF() {
   const sku = this.skuSeleccionado ?? '';
@@ -358,5 +365,31 @@ optionsV = {
         alert('No se pudo generar el reporte. Inténtalo más tarde.');
       }
     });
+  }
+
+  filtrarPorRango() {
+    if (this.rangoFechas && this.rangoFechas.length === 2) {
+      const [fechaInicio, fechaFin] = this.rangoFechas;
+      const inicio = fechaInicio.getTime();
+      const fin = fechaFin.getTime();
+
+      this.movimientos = this.movimientos.filter(m => {
+        const fechaMovimiento = new Date(m.createdAt).getTime();
+        return fechaMovimiento >= inicio && fechaMovimiento <= fin;
+      });
+
+      this.prepararChartVentasPorCategoria();
+      this.prepararChartPorTipo();
+      this.prepararChartVentasPorAlmacen();
+      this.prepararChartRankingEmpleados();
+      this.prepararChartRankingProductos();
+      this.obtenerVentasPorSku(this.skuSeleccionado || '');
+    }
+  }
+
+  async limpiarFiltroFechas() {
+    this.rangoFechas = [];
+    await this.ngOnInit();
+    this.obtenerVentasPorSku(this.skuSeleccionado || '');
   }
 }

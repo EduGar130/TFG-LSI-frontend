@@ -2,12 +2,26 @@
   <p>Cargando estadísticas...</p>
 </div>
 
+
 <div *ngIf="!cargando" class="stat-container">
+  
   <h2>Estadísticas de Inventario</h2>
-  <p-button label="Generar reporte PDF" icon="pi pi-file-pdf" (click)="generarReportePDF()"></p-button>
+    <p-button label="Generar reporte PDF" icon="pi pi-file-pdf" (click)="generarReportePDF()"></p-button>
+  <div class="chart-box" style="flex: 1 1 100%; margin-top: 1rem;">
+    <p-datepicker 
+      [(ngModel)]="rangoFechas" 
+      selectionMode="range" 
+      dateFormat="dd/mm/yy" 
+      (onSelect)="filtrarPorRango()" 
+      [showIcon]="true"
+
+      placeholder="Selecciona un rango">
+    </p-datepicker>
+  <p-button label="Limpiar filtro" icon="pi pi-times" (click)="limpiarFiltroFechas()" *ngIf="rangoFechas"></p-button>
+  </div>    
   <div class="chart-box" style="flex: 1 1 100%;">
     <h3>Ventas mensuales por producto</h3>
-    
+
     <p-select 
       [options]="productos" 
       optionLabel="product.sku"
@@ -15,9 +29,14 @@
       placeholder="Seleccionar producto"
       (onChange)="onSkuChange()"
       [filter]="true" 
-      [showClear]="true">
+      [showClear]="false">
     </p-select>
-  
+    <p-button 
+      label="Limpiar selección"
+      icon="pi pi-times"
+      (click)="chartVentasMensuales = null ; productoSeleccionado = null"
+      *ngIf="productoSeleccionado">
+    </p-button>
     <p-chart 
       type="line" 
       [data]="chartVentasMensuales" 
