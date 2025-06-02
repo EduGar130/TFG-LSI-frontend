@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://TU_API_PRODUCCION/api'
+  apiUrl: 'https://tfg-lsi-backend.railway.internal/api'
 };
