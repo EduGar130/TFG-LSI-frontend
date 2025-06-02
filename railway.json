@@ -4,6 +4,6 @@
     "output": "dist/inventario-app/browser"
   },
   "deploy": {
-    "startCommand": "npx serve dist/inventario-app/browser"
+    "startCommand": "serve dist/inventario-app/browser"
   }
 }
