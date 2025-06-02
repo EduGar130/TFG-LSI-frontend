@@ -1,0 +1,9 @@
+{
+  "build": {
+    "command": "npm install && npm run build -- --configuration production",
+    "output": "dist/inventario-app"
+  },
+  "deploy": {
+    "startCommand": "serve dist/inventario-app"
+  }
+}
