@@ -4,6 +4,6 @@
     "output": "dist/inventario-app/browser"
   },
   "deploy": {
-    "startCommand": "serve dist/inventario-app/browser"
+    "startCommand": "ls dist/inventario-app/browser && serve dist/inventario-app/browser"
   }
 }

@@ -1,5 +1,7 @@
+import { environment } from "../../environments/environment";
+
 export const TOKEN_KEY = 'auth_token';
-export const API_URL = 'http://localhost:8080/api';
+const API_URL = environment.apiUrl;
 
 // Roles
 export const ROLE_ADMIN = 'admin';
