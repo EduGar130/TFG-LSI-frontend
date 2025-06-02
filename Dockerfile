@@ -3,7 +3,7 @@ FROM node:18-alpine as build
 WORKDIR /app
 COPY . .
 RUN npm install
-RUN npm run build -- --configuration production
+RUN npm run build -- --configuration production --base-href=/
 
 # Etapa 2: Servir la app con Nginx
 FROM nginx:alpine
