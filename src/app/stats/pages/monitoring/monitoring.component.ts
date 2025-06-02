@@ -23,11 +23,12 @@ import { ReportService } from '../../services/report.service';
 import { ButtonModule } from 'primeng/button';
 import { TabViewModule } from 'primeng/tabview';
 import { DatePickerModule  } from 'primeng/datepicker';
+import { CalendarModule } from 'primeng/calendar';
 
 @Component({
   selector: 'app-estadisticas',
   standalone: true,
-  imports: [CommonModule, ChartModule, SelectModule, FormsModule, ButtonModule, TabViewModule, DatePickerModule],
+  imports: [CommonModule, ChartModule, SelectModule, FormsModule, ButtonModule, TabViewModule, DatePickerModule, CalendarModule],
   templateUrl: './monitoring.component.html',
   styleUrls: ['./monitoring.component.scss']
 })
@@ -37,7 +38,7 @@ export class MonitoringComponent implements OnInit {
   productos!: Inventory[];
   rangoFechas!: Date[];
 
-
+  es: any;
   chartVentasPorCategoria: any;
   chartTipoTransaccion: any;
   chartVentasPorAlmacen: any;
@@ -148,6 +149,18 @@ optionsV = {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    this.es = {
+      firstDayOfWeek: 1,
+      dayNames: ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'],
+      dayNamesShort: ['dom','lun','mar','mié','jue','vie','sáb'],
+      dayNamesMin: ['D','L','M','X','J','V','S'],
+      monthNames: ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+      monthNamesShort: ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],
+      today: 'Hoy',
+      clear: 'Limpiar',
+      dateFormat: 'dd/mm/yy',
+      weekHeader: 'Sm'
+    };
     this.transactionService.getTransactions().subscribe((data) => {
       this.movimientos = data;
       this.movimientos.sort((a, b) => a.id - b.id);

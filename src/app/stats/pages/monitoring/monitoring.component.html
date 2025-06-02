@@ -14,7 +14,7 @@
       dateFormat="dd/mm/yy" 
       (onSelect)="filtrarPorRango()" 
       [showIcon]="true"
-
+      [locale]="es"
       placeholder="Selecciona un rango">
     </p-datepicker>
   <p-button label="Limpiar filtro" icon="pi pi-times" (click)="limpiarFiltroFechas()" *ngIf="rangoFechas"></p-button>
