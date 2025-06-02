@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "serve dist/inventario-app/browser",
+    "build": "ng build --configuration production",
+    "dev": "ng serve",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
