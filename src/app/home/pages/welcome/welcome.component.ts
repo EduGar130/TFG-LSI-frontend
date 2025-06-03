@@ -7,6 +7,9 @@ import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
 import { Warehouse } from '../../../inventario/model/warehouse.model';
 import { PERMISO_FULL_ACCESS, PERMISO_VIEW_INVENTORY, PERMISO_VIEW_REPORTS, PERMISO_VIEW_STATS } from '../../../common/constants';
+import { NgxParticlesModule } from '@tsparticles/angular';
+import { Engine, ISourceOptions } from '@tsparticles/engine';
+import { loadSlim } from '@tsparticles/slim';
 
 @Component({
   selector: 'app-home',
@@ -16,10 +19,36 @@ import { PERMISO_FULL_ACCESS, PERMISO_VIEW_INVENTORY, PERMISO_VIEW_REPORTS, PERM
     CommonModule,
     CardModule,
     PanelModule,
-    ButtonModule
+    ButtonModule,
+    NgxParticlesModule
   ]
 })
 export class WelcomeComponent implements OnInit {
+   particlesOptions: ISourceOptions = {
+    background: {
+      color: { value: "#ffffff" }
+    },
+    fpsLimit: 60,
+    particles: {
+      color: {
+        value: "#000"
+      },
+      links: {
+        enable: true,
+        color: "#000"
+      },
+      move: {
+        enable: true
+      },
+      number: {
+        value: 50,
+      },
+      size: {
+        value: { min: 2, max: 4 }
+      },
+    }
+  };
+
   username: string = '';
   currentTime: string = '';
   inventorySummary: string = '';
@@ -30,7 +59,7 @@ export class WelcomeComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.loadUsername();
     this.updateTime();
     if(this.authService.hasPermiso(PERMISO_FULL_ACCESS)) {
@@ -46,7 +75,6 @@ export class WelcomeComponent implements OnInit {
     else {
       this.loadLocation();
     }
-    console.log('admin, reponedor, marketing' + this.esAdmin + this.esReponedor + this.esMarketing)
     setInterval(() => this.updateTime(), 1000);
   }
 
@@ -69,5 +97,9 @@ export class WelcomeComponent implements OnInit {
 
   navigateStats(): void {
     this.router.navigate(['/stats']);
+  }
+
+  particlesLoaded(event: any): void {
+    console.log(event);
   }
 }

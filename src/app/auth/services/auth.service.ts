@@ -93,7 +93,7 @@ export class AuthService {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
 
-      console.log('Payload del token:', payload);
+
       return payload?.sub || null;
     } catch (error) {
       console.error('Error al decodificar el token JWT:', error);
