@@ -25,6 +25,10 @@ import { loadSlim } from '@tsparticles/slim';
 })
 export class WelcomeComponent implements OnInit {
    particlesOptions: ISourceOptions = {
+    duration : 10000000,
+    pauseOnOutsideViewport: false,
+    pauseOnBlur: false,
+    autoPlay: true,
     background: {
       color: { value: "#ffffff" }
     },
