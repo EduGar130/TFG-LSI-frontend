@@ -18,6 +18,7 @@ import { ThemeService } from '../../services/theme.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { MenubarModule } from 'primeng/menubar';
 import { PERMISO_CREATE_USERS, PERMISO_MANAGE_TRANSACTIONS, PERMISO_VIEW_ALERTS, PERMISO_VIEW_INVENTORY, PERMISO_VIEW_STATS } from '../../../common/constants';
+import { TooltipModule } from 'primeng/tooltip';
 
 
 @Component({
@@ -25,7 +26,7 @@ import { PERMISO_CREATE_USERS, PERMISO_MANAGE_TRANSACTIONS, PERMISO_VIEW_ALERTS,
   standalone: true,
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
-  imports: [CommonModule, ButtonModule, MenubarModule ]
+  imports: [CommonModule, ButtonModule, MenubarModule, TooltipModule]
 })
 
 export class NavbarComponent implements OnInit {
@@ -66,7 +67,7 @@ export class NavbarComponent implements OnInit {
       items.unshift({
         icon: 'pi pi-chart-bar',
         tooltip: 'Estadísticas',
-        tooltipPosition: 'right',
+        tooltipPosition: 'left',
         command: () => {
           this.selectItem('stats');
           this.navigateStats();
@@ -78,7 +79,7 @@ export class NavbarComponent implements OnInit {
       items.unshift({
         icon: 'pi pi-arrow-right-arrow-left',
         tooltip: 'Movimientos',
-        tooltipPosition: 'right',
+        tooltipPosition: 'left',
         command: () => {
           this.selectItem('movimientos');
           this.router.navigate(['/movimientos']);
@@ -90,7 +91,7 @@ export class NavbarComponent implements OnInit {
       items.unshift({
         icon: 'pi pi-clipboard',
         tooltip: 'Inventario',
-        tooltipPosition: 'right',
+        tooltipPosition: 'left',
         command: () => {
           this.selectItem('inventario');
           this.navigateInventario();
@@ -102,7 +103,7 @@ export class NavbarComponent implements OnInit {
       items.unshift({
         icon: 'pi pi-bell',
         tooltip: 'Notificaciones',
-        tooltipPosition: 'right',
+        tooltipPosition: 'left',
         command: () => {
           this.selectItem('notificaciones');
           this.navigateNotificaciones();
@@ -116,7 +117,7 @@ export class NavbarComponent implements OnInit {
       items.push({
         icon: 'pi pi-users',
         tooltip: 'Administración de usuarios',
-        tooltipPosition: 'right',
+        tooltipPosition: 'left',
         
         command: () => {
           this.selectItem('admin');
@@ -127,7 +128,7 @@ export class NavbarComponent implements OnInit {
     items.push({
         icon: 'pi pi-sun',
         tooltip: 'Cambiar tema',
-        tooltipPosition: 'right',
+        tooltipPosition: 'left',
         command: () => {
           this.toggleTheme();
         }
@@ -135,7 +136,7 @@ export class NavbarComponent implements OnInit {
     items.push({
         icon: 'pi pi-sign-out',
         tooltip: 'Cerrar sesión',
-        tooltipPosition: 'right',
+        tooltipPosition: 'left',
         command: () => {
           this.selectItem('logout');
           this.logout();
@@ -144,7 +145,7 @@ export class NavbarComponent implements OnInit {
     items.unshift({
         icon: 'pi pi-home',
         tooltip: 'Inicio',
-        tooltipPosition: 'right',
+        tooltipPosition: 'left',
         command: () => {
           this.selectItem('home');
           this.router.navigate(['/home']);

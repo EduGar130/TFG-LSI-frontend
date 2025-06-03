@@ -15,7 +15,10 @@ th, td {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: var(--text-color);
+}
+
+h2 {
+  color: var(--p-text-color);
 }
 
 .container {
@@ -23,13 +26,21 @@ th, td {
 }
 
 .usuario-actual {
-  background-color: #a9ffb0 !important; /* Amarillo claro, cambia el color si quieres */
+  background-color: #76f881 !important;
 }
 
 .buscador {
   display: flex;
   justify-content: right;
   align-items: center;
-  margin-bottom: 1rem;
   max-width: 20rem;
+}
+
+.buscador-acciones {
+  display: flex;
+  margin-bottom: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
 }

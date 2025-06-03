@@ -36,3 +36,32 @@
   height: 100%;
   z-index: -1;
 }
+
+.animated-background {
+ background: linear-gradient(
+    -45deg,
+    	#0062ff,
+    #454779,
+    #00ffaa
+  );
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
