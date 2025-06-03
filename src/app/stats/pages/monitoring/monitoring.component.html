@@ -6,43 +6,60 @@
 <div *ngIf="!cargando" class="stat-container">
   
   <h2>Estadísticas de Inventario</h2>
+  <div class="option-box" style="flex: 1 1 100%; gap: 1rem;">
     <p-button label="Generar reporte PDF" icon="pi pi-file-pdf" (click)="generarReportePDF()"></p-button>
-  <div class="chart-box" style="flex: 1 1 100%; margin-top: 1rem;">
     <p-datepicker 
       [(ngModel)]="rangoFechas" 
       selectionMode="range" 
       dateFormat="dd/mm/yy" 
-      (onSelect)="filtrarPorRango()" 
+      (onSelect)="filtrar()" 
       [showIcon]="true"
       [locale]="es"
       placeholder="Selecciona un rango">
     </p-datepicker>
-  <p-button label="Limpiar filtro" icon="pi pi-times" (click)="limpiarFiltroFechas()" *ngIf="rangoFechas"></p-button>
+    <p-button label="Limpiar filtro fechas" icon="pi pi-times" (click)="limpiarFiltroFechas()" *ngIf="rangoFechas && rangoFechas.length > 1"></p-button>
+    <p-select
+          aria-label="Seleccionar almacén"
+          [options]="almacenes"
+          optionLabel="name"
+          placeholder="Seleccionar almacén"
+          [(ngModel)]="almacenSeleccionado"
+          [filter]="true"
+          [showClear]="true"
+          (onChange)="filtrar()"
+          dropdownIcon="pi pi-warehouse">
+        </p-select>
+
+        <p-select
+          aria-label="Selecciona una categoria"
+          [options]="categorias"
+          optionLabel="name"
+          placeholder="Seleccionar categoria"
+          [(ngModel)]="categoriaSeleccionada"
+          (onChange)="filtrar()"
+          [filter]="true"
+          [showClear]="true"
+          dropdownIcon="pi pi-filter">
+        </p-select>
   </div>    
   <div class="chart-box" style="flex: 1 1 100%;">
     <h3>Ventas mensuales por producto</h3>
-
+  
     <p-select 
-      [options]="productos" 
-      optionLabel="product.sku"
+      [options]="productosFiltrados" 
+      optionLabel="label"
       [(ngModel)]="productoSeleccionado" 
       placeholder="Seleccionar producto"
       (onChange)="onSkuChange()"
       [filter]="true" 
-      [showClear]="false">
+      [showClear]="true">
     </p-select>
-    <p-button 
-      label="Limpiar selección"
-      icon="pi pi-times"
-      (click)="chartVentasMensuales = null ; productoSeleccionado = null"
-      *ngIf="productoSeleccionado">
-    </p-button>
     <p-chart 
       type="line" 
       [data]="chartVentasMensuales" 
       [options]="optionsV" 
       [responsive]="true" 
-      *ngIf="chartVentasMensuales">
+      *ngIf="chartVentasMensuales && productoSeleccionado">
     </p-chart>
   </div>
   

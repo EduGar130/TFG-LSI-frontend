@@ -5,17 +5,24 @@
 }
 
 .chart-container {
-  height: 70vh;              // Altura deseada
-  width: 100%;               // O ajusta según necesidad
+  height: 70vh;
+  width: 100%;
   display: flex;
-  justify-content: center;   // Centra horizontalmente
-  align-items: center;       // Centra verticalmente
+  justify-content: center; 
+  align-items: center; 
   
 }
 
 :host ::ng-deep canvas {
   height: 100% !important;
-  max-height: 70vh;   // Asegura que el canvas ocupe todo el contenedor
-  width: auto !important;    // Ajusta el ancho de forma proporcional
-  max-width: 90vw;  // Limita el ancho máximo del canvas
+  max-height: 70vh;
+  width: auto !important; 
+  max-width: 90vw; 
+}
+
+.option-box {
+  display: flex;
+  flex: 1 1 100%;
+  gap: 1rem;
+  flex-wrap: wrap; 
 }

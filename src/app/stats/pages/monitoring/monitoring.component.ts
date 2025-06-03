@@ -24,6 +24,9 @@ import { ButtonModule } from 'primeng/button';
 import { TabViewModule } from 'primeng/tabview';
 import { DatePickerModule  } from 'primeng/datepicker';
 import { CalendarModule } from 'primeng/calendar';
+import { Warehouse } from '../../../inventario/model/warehouse.model';
+import { Category } from '../../../inventario/model/category.model';
+import { CategoryService } from '../../../inventario/services/category.service';
 
 @Component({
   selector: 'app-estadisticas',
@@ -35,8 +38,14 @@ import { CalendarModule } from 'primeng/calendar';
 export class MonitoringComponent implements OnInit {
   cargando: boolean = true;
   movimientos!: Transaction[];
+  movimientosFiltrados!: Transaction[];
   productos!: Inventory[];
-  rangoFechas!: Date[];
+  productosFiltrados!: Inventory[];
+  rangoFechas: Date[] = [];
+  almacenes!: Warehouse[];
+  almacenSeleccionado: Warehouse | null = null;
+  categorias!: Category[];
+  categoriaSeleccionada: Category | null = null;
 
   es: any;
   chartVentasPorCategoria: any;
@@ -144,11 +153,14 @@ optionsV = {
     private inventoryService: InventoryService,
     private authService: AuthService,
     private warehouseService: WarehouseService,
+    private categoryService: CategoryService,
     private transactionService: TransactionService,
     private reportService: ReportService
   ) {}
 
   async ngOnInit(): Promise<void> {
+    this.almacenes = (await this.warehouseService.getWarehouses().toPromise()) ?? [];
+    this.categorias = (await this.categoryService.getCategories().toPromise()) ?? [];
     this.es = {
       firstDayOfWeek: 1,
       dayNames: ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'],
@@ -164,6 +176,7 @@ optionsV = {
     this.transactionService.getTransactions().subscribe((data) => {
       this.movimientos = data;
       this.movimientos.sort((a, b) => a.id - b.id);
+      this.movimientosFiltrados = this.movimientos;
       this.prepararChartVentasPorCategoria();
       this.prepararChartPorTipo();
       this.prepararChartVentasPorAlmacen();
@@ -178,16 +191,22 @@ optionsV = {
           ))
         );
         // El producto debe de tener algun movimiento asociado de tipo SALE
-        this.productos = this.productos.filter((p) => {
-          return this.movimientos.some((m) => m.product.sku === p.product.sku && m.type.toString() === 'SALE');
-        });
+        this.productos = this.productos
+          .filter((p) => {
+            return this.movimientos.some((m) => m.product.sku === p.product.sku && m.type.toString() === 'SALE');
+          })
+          .map((inventory) => ({
+            ...inventory,
+            label: `${inventory.product.name} (${inventory.product.sku})`
+          }));
+          this.productosFiltrados = this.productos;
       }); 
       this.cargando = false;
     });    
   }
 
   prepararChartVentasPorCategoria() {
-    const ventas = this.movimientos.filter(m => m.type.toString() === 'SALE');
+    const ventas = this.movimientosFiltrados.filter(m => m.type.toString() === 'SALE');
     const agregadas = new Map<string, number>();
   
     ventas.forEach(t => {
@@ -220,7 +239,7 @@ optionsV = {
   
     const conteo = { 'ADD': 0, 'REMOVE': 0, 'SALE': 0 };
   
-    this.movimientos.forEach(m => {
+    this.movimientosFiltrados.forEach(m => {
       conteo[m.type as unknown as 'ADD' | 'REMOVE' | 'SALE'] += 1;
     });
   
@@ -237,7 +256,7 @@ optionsV = {
   }
 
   prepararChartVentasPorAlmacen() {
-    const ventas = this.movimientos.filter(m => m.type.toString() === 'SALE');
+    const ventas = this.movimientosFiltrados.filter(m => m.type.toString() === 'SALE');
     const conteo = new Map<string, number>();
 
     ventas.forEach(m => {
@@ -258,14 +277,18 @@ optionsV = {
   }
   
   onSkuChange() {
-    if (!this.productoSeleccionado) return;
-    this.skuSeleccionado = this.productoSeleccionado.product.sku;
-    console.log(this.skuSeleccionado);
-    this.obtenerVentasPorSku(this.skuSeleccionado);
+    if (this.productoSeleccionado){
+      this.skuSeleccionado = this.productoSeleccionado.product.sku;
+      console.log(this.skuSeleccionado);
+      this.obtenerVentasPorSku(this.skuSeleccionado);
+    }else {
+      this.skuSeleccionado = null;
+      this.chartVentasMensuales = null;
+    }
   }
 
   prepararChartRankingEmpleados() {
-    const ventas = this.movimientos.filter(m => m.type.toString() === 'SALE');
+    const ventas = this.movimientosFiltrados.filter(m => m.type.toString() === 'SALE');
     const empleados = new Map<string, number>();
   
     ventas.forEach(m => {
@@ -289,7 +312,7 @@ optionsV = {
   
 
   prepararChartRankingProductos() {
-    const ventas = this.movimientos.filter(m => m.type.toString() === 'SALE');
+    const ventas = this.movimientosFiltrados.filter(m => m.type.toString() === 'SALE');
     const conteo = new Map<string, number>();
 
     ventas.forEach(m => {
@@ -330,7 +353,7 @@ optionsV = {
     mesesAño.push(`${mesCapitalizado} ${fecha.getFullYear()}`);
   }
 
-  const ventas = this.movimientos.filter(m =>
+  const ventas = this.movimientosFiltrados.filter(m =>
     m.product.sku === sku && m.type.toString() === 'SALE'
   );
 
@@ -363,8 +386,18 @@ optionsV = {
 
   generarReportePDF() {
   const sku = this.skuSeleccionado ?? '';
+  const almacenSeleccionado = this.almacenSeleccionado ? this.almacenSeleccionado.id : '';
+  const categoriaSeleccionada = this.categoriaSeleccionada ? this.categoriaSeleccionada.id : '';
+  const fechaInicio = this.rangoFechas[0] ? this.rangoFechas[0].toISOString() : '';
+  const fechaFin = this.rangoFechas[1] ? this.rangoFechas[1].toISOString() : '';
 
-    this.reportService.generarEstadisticasPDF(sku).subscribe({
+  console.log('Generando reporte PDF con los siguientes parámetros:');
+  console.log('SKU:', sku);
+  console.log('Almacén seleccionado:', almacenSeleccionado);
+  console.log('Categoría seleccionada:', categoriaSeleccionada);
+  console.log('Rango de fechas:', fechaInicio, 'a', fechaFin);
+
+    this.reportService.generarEstadisticasPDF(sku, almacenSeleccionado, categoriaSeleccionada, fechaInicio, fechaFin).subscribe({
       next: (blob) => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -380,27 +413,47 @@ optionsV = {
     });
   }
 
-  filtrarPorRango() {
-    if (this.rangoFechas && this.rangoFechas.length === 2) {
+  filtrar() {
+    this.movimientosFiltrados = this.movimientos;
+    this.productosFiltrados = this.productos;
+    if (this.rangoFechas && this.rangoFechas.length === 2 && this.rangoFechas[0] && this.rangoFechas[1]) {
       const [fechaInicio, fechaFin] = this.rangoFechas;
       const inicio = fechaInicio.getTime();
       const fin = fechaFin.getTime();
 
-      this.movimientos = this.movimientos.filter(m => {
+      this.movimientosFiltrados = this.movimientosFiltrados.filter(m => {
         const fechaMovimiento = new Date(m.createdAt).getTime();
         return fechaMovimiento >= inicio && fechaMovimiento <= fin;
       });
-
-      this.prepararChartVentasPorCategoria();
-      this.prepararChartPorTipo();
-      this.prepararChartVentasPorAlmacen();
-      this.prepararChartRankingEmpleados();
-      this.prepararChartRankingProductos();
-      this.obtenerVentasPorSku(this.skuSeleccionado || '');
     }
+
+    if (this.categoriaSeleccionada) {
+      this.productoSeleccionado = null;
+      this.movimientosFiltrados = this.movimientosFiltrados.filter(m => m.product.category?.id === this.categoriaSeleccionada!.id);
+      this.productosFiltrados = this.productos
+          .filter((p) => {
+            return this.movimientosFiltrados.some((m) => m.product.sku === p.product.sku && m.type.toString() === 'SALE');
+          })
+          .map((inventory) => ({
+            ...inventory,
+            label: `${inventory.product.name} (${inventory.product.sku})`
+          }));
+    }
+
+    if (this.almacenSeleccionado) {
+      this.movimientosFiltrados = this.movimientosFiltrados.filter(m => m.warehouse.id === this.almacenSeleccionado!.id);
+    }
+
+    this.prepararChartVentasPorCategoria();
+    this.prepararChartPorTipo();
+    this.prepararChartVentasPorAlmacen();
+    this.prepararChartRankingEmpleados();
+    this.prepararChartRankingProductos();
+    this.obtenerVentasPorSku(this.skuSeleccionado || '');
   }
 
   async limpiarFiltroFechas() {
+    this.movimientosFiltrados = this.movimientos;
     this.rangoFechas = [];
     await this.ngOnInit();
     this.obtenerVentasPorSku(this.skuSeleccionado || '');
