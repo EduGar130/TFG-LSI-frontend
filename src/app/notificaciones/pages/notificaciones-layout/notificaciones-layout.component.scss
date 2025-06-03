@@ -13,13 +13,16 @@
     flex-direction: row;
     align-items: center;
     gap: 2rem;
+    padding-left: 2rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.5rem;
+    border-left: 10px solid #ff5e00;
+    border-radius: 6px;
 }
 
 .notif {
     padding: 0 !important;
     max-height: 50vh;
-    border-left: 7px solid #ff5e00;
-    border-radius: 6px;
 }
 
 .bell {
@@ -33,8 +36,13 @@
     animation-play-state: running;
 }
 
-.bell-vanish {
-
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  text-align: center;
 }
 
 @keyframes bell {

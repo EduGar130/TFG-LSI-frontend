@@ -1,10 +1,10 @@
-<div *ngIf="cargando">
-  <p>Cargando estadísticas...</p>
+<div *ngIf="cargando" class="loading-container">
+  <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" ariaLabel="Cargando estadísticas"/>
 </div>
 
 
+
 <div *ngIf="!cargando" class="stat-container">
-  
   <h2>Estadísticas de Inventario</h2>
   <div class="option-box" style="flex: 1 1 100%; gap: 1rem;">
     <p-button label="Generar reporte PDF" icon="pi pi-file-pdf" (click)="generarReportePDF()"></p-button>

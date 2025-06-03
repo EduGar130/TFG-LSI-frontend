@@ -9,12 +9,14 @@ import { Warehouse } from '../../../inventario/model/warehouse.model';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-notificaciones-layout',
   imports: [CommonModule,
             CardModule,
             TagModule,
+            ProgressSpinnerModule
             ],
   templateUrl: './notificaciones-layout.component.html',
   styleUrl: './notificaciones-layout.component.scss'

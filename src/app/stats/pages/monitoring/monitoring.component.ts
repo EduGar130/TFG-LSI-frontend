@@ -24,6 +24,7 @@ import { ButtonModule } from 'primeng/button';
 import { TabViewModule } from 'primeng/tabview';
 import { DatePickerModule  } from 'primeng/datepicker';
 import { CalendarModule } from 'primeng/calendar';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { Warehouse } from '../../../inventario/model/warehouse.model';
 import { Category } from '../../../inventario/model/category.model';
 import { CategoryService } from '../../../inventario/services/category.service';
@@ -31,7 +32,17 @@ import { CategoryService } from '../../../inventario/services/category.service';
 @Component({
   selector: 'app-estadisticas',
   standalone: true,
-  imports: [CommonModule, ChartModule, SelectModule, FormsModule, ButtonModule, TabViewModule, DatePickerModule, CalendarModule],
+  imports: [
+    CommonModule, 
+    ChartModule, 
+    SelectModule, 
+    FormsModule, 
+    ButtonModule, 
+    TabViewModule, 
+    DatePickerModule, 
+    CalendarModule, 
+    ProgressSpinnerModule
+  ],
   templateUrl: './monitoring.component.html',
   styleUrls: ['./monitoring.component.scss']
 })

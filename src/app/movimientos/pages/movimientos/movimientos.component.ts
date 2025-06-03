@@ -51,7 +51,7 @@ export class MovimientosComponent implements OnInit {
   esManager: boolean = false;
   almacen!: Warehouse;
   almacenSeleccionado: Warehouse | null = null;
-  inventarioSeleccionado!: Inventory;
+  inventarioSeleccionado!: Inventory | null;
   activeTab: number = 0;
   movimiento: Transaction = {
     id: 0,
@@ -131,7 +131,9 @@ export class MovimientosComponent implements OnInit {
   }
 
   cargarProductoEnTransaccion() {
-    this.movimiento.product = this.inventarioSeleccionado?.product;
+    if (this.inventarioSeleccionado && this.inventarioSeleccionado.product) {
+      this.movimiento.product = this.inventarioSeleccionado.product;
+    }
   }
 
   registrarMovimiento() {
@@ -176,12 +178,20 @@ export class MovimientosComponent implements OnInit {
   }
 
   cargarProductosPorAlmacen() {
-    if (this.almacenSeleccionado?.id !== undefined) {
-      this.movimiento.warehouse = this.almacenSeleccionado;
-      this.inventoryService.getInventoryByWarehouse(this.almacenSeleccionado.id).subscribe((data) => {
-        data.sort((a, b) => a.id - b.id);
-        this.productos = data;
-      });
+    if(this.almacenSeleccionado === null) {
+      this.productos = [];
+      this.inventarioSeleccionado = null;
+    }else{
+      if (this.almacenSeleccionado?.id !== undefined) {
+        this.movimiento.warehouse = this.almacenSeleccionado;
+        this.inventoryService.getInventoryByWarehouse(this.almacenSeleccionado.id).subscribe((data) => {
+          data.sort((a, b) => a.id - b.id);
+          this.productos = data.map((inventory) => ({
+              ...inventory,
+              label: `${inventory.product.name} (${inventory.product.sku})`
+            }));
+        });
+      }
     }
   }
 }

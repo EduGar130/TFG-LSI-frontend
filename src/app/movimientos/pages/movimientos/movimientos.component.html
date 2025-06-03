@@ -67,7 +67,7 @@
           aria-label="Seleccionar producto"
           [disabled]="esAdmin && !almacenSeleccionado"
           [options]="productos"
-          optionLabel="product.sku"
+          optionLabel="label"
           placeholder="Seleccionar producto"
           [(ngModel)]="inventarioSeleccionado"
           (onChange)="cargarProductoEnTransaccion()"
@@ -77,7 +77,7 @@
         </p-select>
 
         <span *ngIf="inventarioSeleccionado" class="cantidad-disponible p-text-secondary" style="margin-left:1rem;">
-          {{ inventarioSeleccionado.product.name }}: 
+          Cantidad disponible:
           <p-badge [value]="inventarioSeleccionado.quantity" severity="info" aria-label="Cantidad disponible"></p-badge>
         </span>
       </div>

@@ -1,6 +1,8 @@
 <div class="inbox-container" *ngIf="datosCargados && alertas.length > 0; else noAlerts">
+    <div class="inbox-header">
+        <h2>Notificaciones</h2>
+    </div>
     <div class="notif" *ngFor="let alerta of alertas; let i = index">
-        <p-card class="card">
             <div class="card-a">
                 <button class="bell">
                     <i class="pi pi-bell bell-move"></i>
@@ -19,12 +21,15 @@
                     </div>
                 </div>
             </div>
-        </p-card>
     </div>
 </div>
 <ng-template #noAlerts>
-<div class="inbox-container">
+<div class="inbox-container" *ngIf="datosCargados">
     <h3>No hay alertas</h3>
     <p>Cuando haya alertas, se mostrarán aquí.</p>
 </div>
 </ng-template>
+
+<div *ngIf="!datosCargados" class="loading-container">
+  <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" ariaLabel="Cargando estadísticas"/>
+</div>
