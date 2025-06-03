@@ -22,13 +22,16 @@ import { User } from '../../../auth/model/user.model';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { Warehouse } from '../../../inventario/model/warehouse.model';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'app-users',
   standalone: true,
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.scss'],
-  imports: [CommonModule, FormsModule, TableModule, ButtonModule, DropdownModule],
+  imports: [CommonModule, FormsModule, TableModule, ButtonModule, DropdownModule, InputTextModule, InputGroupModule, InputGroupAddonModule],
   providers: [DialogService]
 })
 export class UsersListComponent implements OnInit {

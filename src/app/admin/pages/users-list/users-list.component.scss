@@ -25,3 +25,11 @@ th, td {
 .usuario-actual {
   background-color: #a9ffb0 !important; /* Amarillo claro, cambia el color si quieres */
 }
+
+.buscador {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin-bottom: 1rem;
+  max-width: 20rem;
+}

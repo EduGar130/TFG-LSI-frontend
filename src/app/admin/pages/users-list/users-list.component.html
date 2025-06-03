@@ -1,7 +1,12 @@
 <div class="container">
-  <div class="p-inputgroup mb-3">
+  <h1>Usuarios</h1>
+  <div class="buscador">
+    <p-inputgroup>
     <input type="text" pInputText [(ngModel)]="filtro" (input)="aplicarFiltro()" placeholder="Buscar usuario..." />
-    <button pButton icon="pi pi-times" class="p-button-secondary" (click)="limpiarFiltro()"></button>
+    <p-inputgroup-addon>
+        <p-button icon="pi pi-times" severity="secondary" variant="text" (click)="limpiarFiltro()" />
+    </p-inputgroup-addon>
+    </p-inputgroup>
   </div>
 
   <p-table
