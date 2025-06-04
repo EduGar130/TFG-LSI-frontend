@@ -139,23 +139,33 @@ export class MovimientosComponent implements OnInit {
   registrarMovimiento() {
     const producto = this.productos.find(p => p.product.id === this.movimiento.product.id);
     this.movimiento.user.username = this.authService.getUsername();
-    if (!producto) return;
+    if (!producto) {
+      this.mostrarMensaje('warn', 'Producto no seleccionado', 'Por favor, seleccione un producto válido.');
+      return;
+    }
+    if (this.movimiento.type === TransactionType.NULL) {
+      this.mostrarMensaje('warn', 'Tipo de movimiento no seleccionado', 'Por favor, seleccione un tipo de movimiento.');
+      return;
+    }
+    if (this.movimiento.quantity <= 0) {
+      this.mostrarMensaje('warn', 'Cantidad inválida', 'La cantidad debe ser mayor a cero.');
+      return;
+    }
 
     if ((this.movimiento.type === TransactionType.SALE) || (this.movimiento.type === TransactionType.REMOVE)) {
       if (producto.quantity >= this.movimiento.quantity) {
         producto.quantity -= this.movimiento.quantity;
         this.movimiento.type === TransactionType.SALE ?
-        this.mostrarMensaje('success', 'Compra realizada', `Stock restante: ${producto.quantity}`) :
+        this.mostrarMensaje('success', 'Venta registrada', `Stock restante: ${producto.quantity}`) :
         this.mostrarMensaje('warn', 'Eliminación registrada', `Stock restante: ${producto.quantity}`);
       } else {
         this.mostrarMensaje('warn', 'Stock insuficiente', 'No hay suficientes unidades disponibles.');
+        return;
       }
     } else {
       producto.quantity += this.movimiento.quantity;
       this.mostrarMensaje('success', 'Reposición registrada', `Nuevo stock: ${producto.quantity}`);
     }
-
-    console.log(this.movimiento);
     this.transactionService.addTransaction(this.movimiento).subscribe((movimiento) => {
       this.movimientos.push(movimiento);
     });;
