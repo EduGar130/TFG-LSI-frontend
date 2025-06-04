@@ -2,7 +2,7 @@
 
 <p-card>
   <form [formGroup]="productoForm" class="p-fluid grid form-grid">
-    <p-tabs [(value)]="activeTab" (valueChange)="onTabChange(activeTab)">
+    <p-tabs [(value)]="activeTab" (valueChange)="onTabChange(activeTab)" class="tab">
       <p-tablist>
           <p-tab value="0">Crear producto</p-tab>
           <p-tab value="1">Utilizar producto existente</p-tab>
