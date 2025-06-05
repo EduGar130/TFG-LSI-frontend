@@ -44,13 +44,25 @@
   </div>    
   <div class="chart-box" style="flex: 1 1 100%;">
     <h3>Ventas mensuales por producto</h3>
-  
-    <p-select 
+    
+    <!-- un select por cada unidad del tamaño de productosSeleccionados + 1un select por cada unidad del tamaño de productosSeleccionados + 1 -->
+    <p-select
+      class="select-producto"
       [options]="productosFiltrados" 
       optionLabel="label"
-      [(ngModel)]="productoSeleccionado" 
+      [(ngModel)]="productosSeleccionados[0]" 
       placeholder="Seleccionar producto"
-      (onChange)="onSkuChange()"
+      (onChange)="onSkuChange(0, $event.value)"
+      [filter]="true" 
+      [showClear]="true">
+    </p-select>
+    <p-select *ngFor="let producto of productosSeleccionados; let i = index"
+      class="select-producto"
+      [options]="productosFiltrados" 
+      optionLabel="label"
+      [(ngModel)]="productosSeleccionados[i + 1]" 
+      placeholder="Seleccionar producto"
+      (onChange)="onSkuChange(i + 1, $event.value)"
       [filter]="true" 
       [showClear]="true">
     </p-select>
@@ -59,7 +71,7 @@
       [data]="chartVentasMensuales" 
       [options]="optionsV" 
       [responsive]="true" 
-      *ngIf="chartVentasMensuales && productoSeleccionado">
+      *ngIf="chartVentasMensuales && productosSeleccionados.length > 0">
     </p-chart>
   </div>
   

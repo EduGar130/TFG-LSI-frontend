@@ -11,7 +11,7 @@ export class ReportService {
 
   constructor(private http: HttpClient) {}
 
-  generarEstadisticasPDF(sku?: string, 
+  generarEstadisticasPDF(sku?: string[], 
                         almacenSeleccionado?: number | string, 
                         categoriaSeleccionada?: number | string, 
                         fechaInicio?: string, 

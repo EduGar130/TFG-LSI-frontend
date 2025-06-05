@@ -67,7 +67,7 @@ export class MonitoringComponent implements OnInit {
   chartVentasMensuales: any = null;
 
   productoSeleccionado: Inventory | null = null;
-  skuSeleccionado: string | null = null;
+  productosSeleccionados: Inventory[] = [];
 
   optionsHorizontal = {
     indexAxis: 'y',
@@ -287,14 +287,17 @@ optionsV = {
     };
   }
   
-  onSkuChange() {
-    if (this.productoSeleccionado){
-      this.skuSeleccionado = this.productoSeleccionado.product.sku;
-      console.log(this.skuSeleccionado);
-      this.obtenerVentasPorSku(this.skuSeleccionado);
-    }else {
-      this.skuSeleccionado = null;
+  onSkuChange(id: any, producto: any) {
+    if (this.productosSeleccionados.length <= 0) {
       this.chartVentasMensuales = null;
+    }
+    if (!producto) {
+      this.productosSeleccionados.splice(id, 1);
+    }
+    if (this.productosSeleccionados && this.productosSeleccionados.length > 0) {
+      console.log(this.obtenerVentasPorSkus(this.productosSeleccionados.map(p => p.product.sku)));
+      this.obtenerVentasPorSkus(this.productosSeleccionados.map(p => p.product.sku.toString()));
+      
     }
   }
 
@@ -394,9 +397,74 @@ optionsV = {
   };
 }
 
+obtenerVentasPorSkus(skus: string[]) {
+  if (!skus || skus.length === 0) {
+    this.chartVentasMensuales = null;
+    console.warn('No hay SKUs seleccionados para generar el gráfico de ventas mensuales.');
+    return;
+  }
+
+  const ahora = new Date();
+  const mesActual = ahora.getMonth();
+  const añoActual = ahora.getFullYear();
+
+  const mesesAño: string[] = [];
+  for (let i = 11; i >= 0; i--) {
+    const fecha = new Date(añoActual, mesActual - i, 1);
+    const mesNombre = fecha.toLocaleString('es', { month: 'long' });
+    const mesCapitalizado = mesNombre.charAt(0).toUpperCase() + mesNombre.slice(1).toLowerCase();
+    mesesAño.push(`${mesCapitalizado} ${fecha.getFullYear()}`);
+  }
+
+  const colores = ['#42A5F5', '#66BB6A', '#FFA726', '#AB47BC', '#FF7043', '#26C6DA', '#FFCA28'];
+
+  const datasets = skus.map((sku, index) => {
+    const ventas = this.movimientosFiltrados.filter(m =>
+      m.product.sku === sku && m.type.toString() === 'SALE'
+    );
+
+    const conteo = new Map<string, number>();
+    ventas.forEach(m => {
+      const fecha = new Date(m.createdAt);
+      const mesNombre = fecha.toLocaleString('es', { month: 'long' });
+      const mesCapitalizado = mesNombre.charAt(0).toUpperCase() + mesNombre.slice(1).toLowerCase();
+      const clave = `${mesCapitalizado} ${fecha.getFullYear()}`;
+      conteo.set(clave, (conteo.get(clave) || 0) + m.quantity);
+    });
+
+    const cantidades = mesesAño.map(m => conteo.get(m) || 0);
+    const color = colores[index % colores.length]; // Si hay más SKUs que colores, se repiten
+
+    const producto = this.productos?.find(p => p.product.sku === sku);
+    const nombreProducto = producto ? producto.product.name : 'Producto desconocido';
+    return {
+      label: `${nombreProducto} (${sku})`,
+      data: cantidades,
+      borderColor: color,
+      backgroundColor: this.hexToRgba(color, 0.1),
+      fill: true,
+      tension: 0.3
+    };
+  });
+
+  this.chartVentasMensuales = {
+    labels: mesesAño,
+    datasets: datasets
+  };
+}
+
+private hexToRgba(hex: string, alpha: number): string {
+  const bigint = parseInt(hex.replace('#', ''), 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+
 
   generarReportePDF() {
-  const sku = this.skuSeleccionado ?? '';
+  const sku = this.productosSeleccionados.map(p => p.product.sku.toString());
   const almacenSeleccionado = this.almacenSeleccionado ? this.almacenSeleccionado.id : '';
   const categoriaSeleccionada = this.categoriaSeleccionada ? this.categoriaSeleccionada.id : '';
   const fechaInicio = this.rangoFechas[0] ? this.rangoFechas[0].toISOString() : '';
@@ -460,13 +528,13 @@ optionsV = {
     this.prepararChartVentasPorAlmacen();
     this.prepararChartRankingEmpleados();
     this.prepararChartRankingProductos();
-    this.obtenerVentasPorSku(this.skuSeleccionado || '');
+    this.obtenerVentasPorSkus(this.productosSeleccionados.map(p => p.product.sku.toString()));
   }
 
   async limpiarFiltroFechas() {
     this.movimientosFiltrados = this.movimientos;
     this.rangoFechas = [];
     await this.ngOnInit();
-    this.obtenerVentasPorSku(this.skuSeleccionado || '');
+    this.obtenerVentasPorSkus(this.productosSeleccionados.map(p => p.product.sku.toString()));
   }
 }
