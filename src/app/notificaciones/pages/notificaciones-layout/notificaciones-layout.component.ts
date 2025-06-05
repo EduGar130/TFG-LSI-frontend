@@ -57,7 +57,10 @@ export class NotificacionesLayoutComponent implements OnInit {
         this.alertas = data;
         this.alertas = this.alertas.filter((alerta: Alert) => {
           return alerta.warehouse.id === warehouse.id;
-        });
+        }).map((alerta: Alert) => ({
+          ...alerta,
+          activa: true
+        }));
         this.datosCargados = true;
       });
     }
@@ -77,5 +80,9 @@ export class NotificacionesLayoutComponent implements OnInit {
     }
 
     return -1;
+  }
+
+  toggleActiva(alerta: any): void {
+    alerta.activa = !alerta.activa;
   }
 }

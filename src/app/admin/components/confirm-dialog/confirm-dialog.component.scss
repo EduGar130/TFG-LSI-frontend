@@ -1,0 +1,23 @@
+.detalle-producto-dialog {
+    font-size: 1.1rem;
+    padding: 1rem 0;
+  }
+  
+  .detalle-producto-dialog p {
+    margin: 0.5rem 0;
+  }
+  
+  .titulo-dialog {
+    text-align: center;
+  }
+  
+  .dialog-actions {
+    justify-content: flex-end;
+  }
+  
+  .botonera{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }

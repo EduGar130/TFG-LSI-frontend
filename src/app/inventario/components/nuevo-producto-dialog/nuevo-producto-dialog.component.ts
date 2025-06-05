@@ -7,7 +7,7 @@
  * Trabajo de Fin de Grado - UNED
  * Derechos: Este código es propiedad de Eduardo García Romera y se reserva el derecho de uso, distribución y modificación.
  */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
@@ -33,6 +33,7 @@ import { ToastModule } from 'primeng/toast';
   standalone: true,
   templateUrl: './nuevo-producto-dialog.component.html',
   styleUrls: ['./nuevo-producto-dialog.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   imports: [
     CommonModule,
     FormsModule,

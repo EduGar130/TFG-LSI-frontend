@@ -3,7 +3,6 @@
     flex-direction: column;
     height: 100%;
     padding: 5vh 10% 5vh 5%;
-    overflow-y: auto;
     gap: 0.4rem;
     color: var(--p-text-color);
 }
@@ -16,8 +15,12 @@
     padding-left: 2rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 0.5rem;
-    border-left: 10px solid #ff5e00;
+    border-left: 10px solid #ff0800;
     border-radius: 6px;
+}
+
+.active {
+    border-left: 10px solid #00b7ff !important;
 }
 
 .notif {

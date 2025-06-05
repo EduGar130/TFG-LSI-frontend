@@ -25,6 +25,7 @@ import { Warehouse } from '../../../inventario/model/warehouse.model';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-users',
@@ -158,12 +159,27 @@ export class UsersListComponent implements OnInit {
         this.cargando = false;
     });
   }
-
+  
   confirmarEliminarUsuario(usuario: User): void {
-    if (confirm(`¿Está seguro de que desea eliminar al usuario ${usuario.username}?`)) {
-      this.userService.deleteUser(usuario.id).subscribe(() => {
-        this.obtenerUsuarios();
-      });
-    }
+    const ref = this.dialogService.open(ConfirmDialogComponent, {
+      header: 'Confirmar Eliminación',
+      width: '400px',
+      closeOnEscape: true,
+      dismissableMask: true,
+      baseZIndex: 10000,
+      modal: true,
+      closable: true,
+      data: {
+        message: `¿Estás seguro de que quieres eliminar el usuario ${usuario.username}? ¡Cuidado! esta acción es permanente`,
+      },
+    });
+  
+    ref.onClose.subscribe((confirmado) => {
+      if (confirmado) {
+        this.userService.deleteUser(usuario.id).subscribe(() => {
+          this.obtenerUsuarios();
+        });
+      }
+    });
   }
 }

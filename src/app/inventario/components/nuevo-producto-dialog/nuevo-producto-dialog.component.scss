@@ -68,8 +68,17 @@ textarea {
 }
 
 .tab {
-  border-radius: 3px;
-  border: 1px solid var(--p-select-border-color);;
+  border-radius: 8px;
+  border: 1px solid var(--p-select-border-color);
   margin-bottom: 1rem;
   box-shadow: var(--p-select-shadow);
+}
+
+.tab * {
+  background-color: transparent !important;
+  background: none !important;
+}
+
+.p-tablist-tab-list {
+  background: transparent !important;
 }
