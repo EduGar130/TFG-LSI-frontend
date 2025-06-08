@@ -1,13 +1,44 @@
+.desktop-only {
+  display: flex;
+
+  @media (max-width: 768px) {
+    display: none !important;
+  }
+}
+
+.mobile-only {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: var(--p-form-field-background);
+  padding: 0.4em 0;
+  justify-content: space-around;
+  border-top: 1px solid var(--p-form-field-border-color);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  flex-direction: row;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+}
+
 .horizontal-navbar {
   position: fixed;
   top: 50%;
   right: 0;
   transform: translateY(-50%);
-
   max-width: 85px;
   width: 10vw;
   display: flex;
   flex-direction: column;
   padding: 0.4em;
   z-index: 1000;
+}
+
+::ng-deep .p-menubar .pi,
+::ng-deep .p-menubar .p-menuitem-text {
+  color: var(--p-button-text-primary-color);
 }

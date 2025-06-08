@@ -1,7 +1,7 @@
+<div class="sticky-title">
+    <h2>Notificaciones</h2>
+</div>
 <div class="inbox-container" *ngIf="datosCargados && alertas.length > 0; else noAlerts">
-    <div class="inbox-header">
-        <h2>Notificaciones</h2>
-    </div>
     <div class="notif" *ngFor="let alerta of alertas; let i = index">
             <div class="card-a" [ngClass]="{'active': alerta.activa}" (click)="toggleActiva(alerta)">
                 <button class="bell" *ngIf="!alerta.activa">
@@ -12,10 +12,15 @@
                 </button>
                 <div>
                     <div class="card-header">
-                        <h3 class="card-title">
+                        <h3 class="card-title-pc">
                             {{ alerta.product.name}}
                             {{ alerta.alertType }}
                         </h3>
+                        <p class="card-title-mb">
+                            {{ alerta.product.name}}
+                            <br>
+                            {{ alerta.alertType }}
+                        </p>
                     </div>
                     <div class="card-body">
                         <p class="card-text">

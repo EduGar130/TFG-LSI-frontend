@@ -1,7 +1,6 @@
 .inbox-container {
     display: flex;
     flex-direction: column;
-    height: 100%;
     padding: 5vh 10% 5vh 5%;
     gap: 0.4rem;
     color: var(--p-text-color);
@@ -46,6 +45,45 @@
   justify-content: center;
   height: 80vh;
   text-align: center;
+}
+
+.card-title-mb {
+    display: none;
+}
+
+.spacer {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .card-body {
+        display: none;
+    }
+    .card-title-pc {
+        display: none;
+    }
+    .card-title-mb {
+        display: block;
+    }
+
+    .spacer {
+        display: block;
+        height: 130rem !important;
+    }
+
+    .inbox-container {
+        padding: 2vh 5% 10vh 5%;
+    }    
+}
+
+.sticky-title {
+  position: sticky;
+  top: 0;
+  background-color: var(--p-form-field-background);
+  color: var(--p-text-color);
+  padding: 0.3rem 5%; 
+  z-index: 100;
+  border-bottom: 1px solid var(--p-form-field-border-color);
 }
 
 @keyframes bell {

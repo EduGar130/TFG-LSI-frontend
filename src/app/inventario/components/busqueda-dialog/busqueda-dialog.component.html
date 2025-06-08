@@ -1,0 +1,8 @@
+<p-card>
+  <input type="text" pInputText [(ngModel)]="filtro" placeholder="Buscar por nombre..." />
+</p-card>
+  
+<div class="dialog-actions">
+  <button pButton type="button" label="Eliminar filtro" class="btn-cancelar" (click)="eliminar()"></button>
+  <button pButton type="button" label="Buscar" icon="pi pi-search" class="btn-guardar" (click)="buscar()"></button>
+</div>

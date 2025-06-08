@@ -12,18 +12,21 @@
 
       <div class="field">
         <label for="password">Contraseña</label>
-        <div class="p-inputgroup">
+        <p-inputgroup>
           <input id="password"
                  [type]="showPassword ? 'text' : 'password'"
                  pInputText
                  [(ngModel)]="password"
                  name="password" />
-          <button pButton type="button"
-                  icon="{{ showPassword ? 'pi pi-eye-slash' : 'pi pi-eye' }}"
-                  class="p-button-text"
-                  (click)="togglePasswordVisibility()">
-          </button>
-        </div>
+          <p-inputgroup-addon>
+            <button pButton
+                    [icon]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"
+                    class="p-button-text"
+                    type="button"
+                    (click)="togglePasswordVisibility()">
+            </button>
+          </p-inputgroup-addon>
+        </p-inputgroup>
       </div>
 
       <div *ngIf="errorMessage" class="mt-2">

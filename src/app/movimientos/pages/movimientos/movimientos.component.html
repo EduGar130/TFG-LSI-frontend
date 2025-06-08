@@ -16,24 +16,28 @@
               [globalFilterFields]="['almacen', 'producto', 'tipo', 'cantidad', 'fecha']">
               <ng-template pTemplate="header">
                 <tr>
-                  <th scope="col" pSortableColumn="warehouse.name">Almacén <p-sortIcon field="warehouse.name"></p-sortIcon></th>
+                  <th class="optional" scope="col" pSortableColumn="warehouse.name">Almacén <p-sortIcon field="warehouse.name"></p-sortIcon></th>
                   <th scope="col" pSortableColumn="product.name">Producto <p-sortIcon field="product.name"></p-sortIcon></th>
-                  <th scope="col" pSortableColumn="type">Tipo <p-sortIcon field="type"></p-sortIcon></th>
-                  <th scope="col" pSortableColumn="quantity">Cantidad <p-sortIcon field="quantity"></p-sortIcon></th>
-                  <th scope="col" *ngIf="esManager" pSortableColumn="user.username">Usuario <p-sortIcon field="user.username"></p-sortIcon></th>
-                  <th scope="col" pSortableColumn="createdAt">Fecha <p-sortIcon field="createdAt"></p-sortIcon></th>
-                  <th scope="col">Hora</th>
+                  <th class="optional" scope="col" pSortableColumn="type">Tipo <p-sortIcon field="type"></p-sortIcon></th>
+                  <th class="optional" scope="col" pSortableColumn="quantity">Cantidad <p-sortIcon field="quantity"></p-sortIcon></th>
+                  <th class="optional" scope="col" *ngIf="esManager" pSortableColumn="user.username">Usuario <p-sortIcon field="user.username"></p-sortIcon></th>
+                  <th class="optional" scope="col" pSortableColumn="createdAt">Fecha <p-sortIcon field="createdAt"></p-sortIcon></th>
+                  <th class="optional" scope="col">Hora</th>
+                  <th class="mobile" scope="col">Acciones</th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-movimiento let-i="rowIndex">
                 <tr>
-                  <td class="no-wrap">{{ movimiento.warehouse.name }}</td>
+                  <td class="no-wrap optional">{{ movimiento.warehouse.name }}</td>
                   <td class="no-wrap">{{ movimiento.product.name }}</td>
-                  <td class="no-wrap">{{ movimiento.type === 'SALE' ? 'Venta' : (movimiento.type === 'ADD' ? 'Reposición' : (movimiento.type === 'REMOVE' ? 'Eliminación' : movimiento.type)) }}</td>
-                  <td>{{ movimiento.quantity }}</td>
-                  <td *ngIf="esManager" class="no-wrap">{{ movimiento.user.username }}</td>
-                  <td class="no-wrap">{{ movimiento.createdAt | date: 'dd/MM/yyyy' }}</td>
-                  <td class="no-wrap">{{ movimiento.createdAt | date: 'HH:mm:ss' }}</td>
+                  <td class="no-wrap optional">{{ movimiento.type === 'SALE' ? 'Venta' : (movimiento.type === 'ADD' ? 'Reposición' : (movimiento.type === 'REMOVE' ? 'Eliminación' : movimiento.type)) }}</td>
+                  <td class="optional">{{ movimiento.quantity }}</td>
+                  <td *ngIf="esManager" class="no-wrap optional">{{ movimiento.user.username }}</td>
+                  <td class="no-wrap optional">{{ movimiento.createdAt | date: 'dd/MM/yyyy' }}</td>
+                  <td class="no-wrap optional">{{ movimiento.createdAt | date: 'HH:mm:ss' }}</td>
+                  <td class="mobile">
+                    <button pButton icon="pi pi-search" class="p-button-rounded p-button-info p-button-sm" (click)="verDetalleMovimiento(movimiento)"></button>
+                  </td>
                 </tr>
               </ng-template>
             </p-table>

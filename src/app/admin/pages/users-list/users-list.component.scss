@@ -1,6 +1,6 @@
 :host {
   display: block;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 table {
@@ -15,6 +15,10 @@ th, td {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  @media (max-width: 768px) {
+    max-width: 42vw;
+  }
 }
 
 h2 {
@@ -43,4 +47,30 @@ h2 {
   align-items: center;
   width: 100%;
   gap: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 768px) {
+  .detalle {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .optional {
+    display: none;
+  }
+}
+
+.sticky-title {
+  position: sticky;
+  top: 0;
+  background-color: var(--p-form-field-background);
+  color: var(--p-text-color);
+  padding: 0.5rem 5%; 
+  z-index: 100;
+  border-bottom: 1px solid var(--p-form-field-border-color);
 }

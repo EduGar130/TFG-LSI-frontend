@@ -28,6 +28,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { Warehouse } from '../../../inventario/model/warehouse.model';
 import { Category } from '../../../inventario/model/category.model';
 import { CategoryService } from '../../../inventario/services/category.service';
+import { optionsHorizontal, optionsV, optionsVmb, optionsR } from '../../options';
 
 @Component({
   selector: 'app-estadisticas',
@@ -69,96 +70,11 @@ export class MonitoringComponent implements OnInit {
   productoSeleccionado: Inventory | null = null;
   productosSeleccionados: Inventory[] = [];
 
-  optionsHorizontal = {
-    indexAxis: 'y',
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false
-      },
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
-        },
-        title: {
-          display: true,
-          color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
-        }
-      },
-      y: {
-        ticks: {
-          color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
-        },
-        title: {
-          display: true,
-          color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
-        }
-      }
-    }
-  };
-  
-
-  optionsR = {
-  indexAxis: 'x',
-  responsive: true,
-  plugins: {
-    legend: {
-      display: true,
-      labels: {
-        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color') 
-    }
-  },
-  scales: {
-    x: {
-      ticks: {
-        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color') 
-      }
-    },
-    y: {
-      ticks: {
-        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color') 
-      }
-    }
-  }
-}
-}; 
-
-optionsV = {
-  indexAxis: 'x',
-  responsive: true,
-  plugins: {
-    legend: {
-      display: true,
-      labels: {
-        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
-      }
-    },
-  },
-  scales: {
-    x: {
-      ticks: {
-        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
-      },
-      title: {
-        display: true,
-        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
-      }
-    },
-    y: {
-      ticks: {
-        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
-      },
-      title: {
-        display: true,
-        text: 'Cantidad',
-        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
-      }
-    }
-  }
-};
-
+  // Opciones de los gráficos
+  optionsHorizontal = optionsHorizontal;
+  optionsV = optionsV;
+  optionsVmb = optionsVmb;
+  optionsR = optionsR;
 
   constructor(
     private inventoryService: InventoryService,
@@ -470,12 +386,6 @@ private hexToRgba(hex: string, alpha: number): string {
   const fechaInicio = this.rangoFechas[0] ? this.rangoFechas[0].toISOString() : '';
   const fechaFin = this.rangoFechas[1] ? this.rangoFechas[1].toISOString() : '';
 
-  console.log('Generando reporte PDF con los siguientes parámetros:');
-  console.log('SKU:', sku);
-  console.log('Almacén seleccionado:', almacenSeleccionado);
-  console.log('Categoría seleccionada:', categoriaSeleccionada);
-  console.log('Rango de fechas:', fechaInicio, 'a', fechaFin);
-
     this.reportService.generarEstadisticasPDF(sku, almacenSeleccionado, categoriaSeleccionada, fechaInicio, fechaFin).subscribe({
       next: (blob) => {
         const url = window.URL.createObjectURL(blob);
@@ -536,5 +446,13 @@ private hexToRgba(hex: string, alpha: number): string {
     this.rangoFechas = [];
     await this.ngOnInit();
     this.obtenerVentasPorSkus(this.productosSeleccionados.map(p => p.product.sku.toString()));
+  }
+
+  get chartOptionsV(): any {
+    return window.innerWidth <= 768 ? optionsHorizontal : optionsV;
+  }
+  
+  get chartOptionsVmb(): any {
+    return window.innerWidth <= 768 ? optionsVmb : optionsV;
   }
 }

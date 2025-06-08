@@ -1,4 +1,4 @@
-<div class="horizontal-navbar" role="navigation" aria-label="Barra de navegación principal">
+<div class="horizontal-navbar desktop-only" role="navigation" aria-label="Barra de navegación principal">
   <p-menubar
     [model]="items"
     [style]="{ width: '100%' }"
@@ -6,4 +6,14 @@
     tabindex="0"
     role="menubar">
   </p-menubar>
+</div>
+
+<div class="horizontal-navbar-mobile mobile-only" role="navigation" aria-label="Menú inferior móvil">
+  <ng-container *ngFor="let item of items">
+    <button type="button" pButton
+            [icon]="item.icon || ''"
+            class="p-button-rounded p-button-text"
+            (click)="item.command?.({ originalEvent: $event, item: item })">
+    </button>
+  </ng-container>
 </div>

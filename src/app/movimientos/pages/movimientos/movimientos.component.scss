@@ -48,7 +48,7 @@
 }
 
 .vender {
-    width: 100%;
+  width: 100%;
 }
 
 .eliminar {
@@ -71,4 +71,69 @@ button {
 .accion-container button:not(.selected) {
     background-color: var(--p-button-secondary-bg);
     color: var(--p-text-color-secondary);
+}
+
+.mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .flex-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .accion-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-group {
+    width: auto;
+  }
+
+  .cantidad-disponible {
+    margin-left: 0 !important;
+    margin-top: 1rem;
+  }
+
+  .no-wrap {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  p-table ::ng-deep thead th,
+  p-table ::ng-deep tbody td {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+
+  p-table ::ng-deep tr {
+    display: flex;
+    border-bottom: 1px solid var(--p-border-color);
+  }
+
+  p-table ::ng-deep tr td,
+  p-table ::ng-deep tr th {
+    width: 100% !important;
+    display: block;
+  }
+
+  .center {
+    flex-direction: column;
+  }
+
+  .optional {
+    display: none;
+  }
+
+  .mobile {
+    display: block;
+    max-width: 25vw;
+  }
+
+  th, td {
+    max-width: 65vw;
+  }
 }

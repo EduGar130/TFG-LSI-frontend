@@ -17,6 +17,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +31,9 @@ import { MessageModule } from 'primeng/message';
     InputTextModule,
     PasswordModule,
     ButtonModule,
-    MessageModule
+    MessageModule,
+    InputGroupModule, 
+    InputGroupAddonModule
   ]
 })
 export class LoginComponent implements OnInit {

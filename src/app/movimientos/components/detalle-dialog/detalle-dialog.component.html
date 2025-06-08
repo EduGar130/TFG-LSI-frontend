@@ -1,0 +1,19 @@
+<div class="p-fluid">
+  <div class="field"><strong>Id:</strong> {{ movimiento.id }}</div>
+  <div class="field"><strong>Producto:</strong> {{ movimiento.product.name }}</div>
+  <div class="field"><strong>Almacén:</strong> {{ movimiento.warehouse.name }}</div>
+  <div class="field"><strong>Usuario:</strong> {{ movimiento.user.username }}</div>
+  <div class="field"><strong>Tipo:</strong>
+    {{ movimiento.type === transactionType.SALE ? 'Venta' :
+       (movimiento.type === transactionType.ADD ? 'Reposición' :
+       (movimiento.type === transactionType.REMOVE ? 'Eliminación' : movimiento.type)) }}
+  </div>
+  <div class="field"><strong>Cantidad:</strong> {{ movimiento.quantity }}</div>
+  <div class="field"><strong>Descripción:</strong> {{ movimiento.description }}</div>
+  <div class="field"><strong>Fecha:</strong> {{ movimiento.createdAt | date: 'dd/MM/yyyy' }}</div>
+  <div class="field"><strong>Hora:</strong> {{ movimiento.createdAt | date: 'HH:mm:ss' }}</div>
+
+  <div class="flex justify-content-end mt-4">
+    <button pButton label="Cerrar" class="p-button-secondary" (click)="cerrar()"></button>
+  </div>
+</div>

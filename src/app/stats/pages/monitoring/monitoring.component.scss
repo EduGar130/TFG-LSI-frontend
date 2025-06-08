@@ -1,7 +1,6 @@
 .stat-container {
     color: var(--p-text-color);
-    padding-left: 5%;
-    padding-right: 10%;
+    padding-bottom: 15vh;
 }
 
 .chart-container {
@@ -9,8 +8,12 @@
   width: 100%;
   display: flex;
   justify-content: center; 
-  align-items: center; 
-  
+  align-items: center;  
+}
+
+.chart-son {
+  display: block;
+  padding-left: 3rem;
 }
 
 :host ::ng-deep canvas {
@@ -21,10 +24,12 @@
 }
 
 .option-box {
+  margin-top: 1rem;
   display: flex;
   flex: 1 1 100%;
   gap: 1rem;
   flex-wrap: wrap; 
+  justify-content: center;
 }
 
 .loading-container {
@@ -38,4 +43,31 @@
 
 .select-producto {
   margin-left: 1rem;
+}
+
+.sticky-title {
+  position: sticky;
+  top: 0;
+  background-color: var(--p-form-field-background);
+  color: var(--p-text-color);
+  padding: 0.3rem 5%; 
+  z-index: 100;
+  border-bottom: 1px solid var(--p-form-field-border-color);
+}
+
+.sticky-subtitle {
+  position: sticky;
+  top: 5rem;
+  background-color: var(--p-form-field-background);
+  color: var(--p-text-color);
+  padding: 0.3rem 5% 0 5%; 
+  z-index: 50;
+  border-bottom: 1px solid var(--p-form-field-border-color);
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .chart-son {
+  padding-left: 0;
+}
 }

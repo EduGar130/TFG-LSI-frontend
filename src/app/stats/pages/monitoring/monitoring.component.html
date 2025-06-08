@@ -2,10 +2,10 @@
   <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" ariaLabel="Cargando estadísticas"/>
 </div>
 
-
-
 <div *ngIf="!cargando" class="stat-container">
-  <h2>Estadísticas de Inventario</h2>
+  <div class="sticky-title">
+    <h2>Estadísticas del Inventario</h2>
+  </div>
   <div class="option-box" style="flex: 1 1 100%; gap: 1rem;">
     <p-button label="Generar reporte PDF" icon="pi pi-file-pdf" (click)="generarReportePDF()"></p-button>
     <p-datepicker 
@@ -43,60 +43,73 @@
         </p-select>
   </div>    
   <div class="chart-box" style="flex: 1 1 100%;">
-    <h3>Ventas mensuales por producto</h3>
-    
-    <!-- un select por cada unidad del tamaño de productosSeleccionados + 1un select por cada unidad del tamaño de productosSeleccionados + 1 -->
-    <p-select
-      class="select-producto"
-      [options]="productosFiltrados" 
-      optionLabel="label"
-      [(ngModel)]="productosSeleccionados[0]" 
-      placeholder="Seleccionar producto"
-      (onChange)="onSkuChange(0, $event.value)"
-      [filter]="true" 
-      [showClear]="true">
-    </p-select>
-    <p-select *ngFor="let producto of productosSeleccionados; let i = index"
-      class="select-producto"
-      [options]="productosFiltrados" 
-      optionLabel="label"
-      [(ngModel)]="productosSeleccionados[i + 1]" 
-      placeholder="Seleccionar producto"
-      (onChange)="onSkuChange(i + 1, $event.value)"
-      [filter]="true" 
-      [showClear]="true">
-    </p-select>
-    <p-chart 
-      type="line" 
-      [data]="chartVentasMensuales" 
-      [options]="optionsV" 
-      [responsive]="true" 
-      *ngIf="chartVentasMensuales && productosSeleccionados.length > 0">
-    </p-chart>
+    <div class="sticky-subtitle">
+      <h3>Ventas mensuales por producto</h3>
+    </div>
+      <p-select
+        class="select-producto"
+        [options]="productosFiltrados" 
+        optionLabel="label"
+        [(ngModel)]="productosSeleccionados[0]" 
+        placeholder="Seleccionar producto"
+        (onChange)="onSkuChange(0, $event.value)"
+        [filter]="true" 
+        [showClear]="true">
+      </p-select>
+      <p-select *ngFor="let producto of productosSeleccionados; let i = index"
+        class="select-producto"
+        [options]="productosFiltrados" 
+        optionLabel="label"
+        [(ngModel)]="productosSeleccionados[i + 1]" 
+        placeholder="Seleccionar producto"
+        (onChange)="onSkuChange(i + 1, $event.value)"
+        [filter]="true" 
+        [showClear]="true">
+      </p-select>
+    <div class="chart-son">
+      <p-chart 
+        class="chart"
+        type="line" 
+        [data]="chartVentasMensuales" 
+        [options]="chartOptionsVmb"
+        [responsive]="true" 
+        *ngIf="chartVentasMensuales && productosSeleccionados.length > 0">
+      </p-chart>
+    </div>
   </div>
   
     <div class="chart-wrapper">
-      <h3>Transacciones por tipo</h3>
-      <p-chart type="doughnut" [data]="chartTipoTransaccion" [options]="optionsR" [responsive]="true"></p-chart>
+      <div class="sticky-subtitle">
+        <h3>Transacciones por tipo</h3>
+      </div>
+      <p-chart class="chart-son" type="doughnut" [data]="chartTipoTransaccion" [options]="optionsR" [responsive]="true"></p-chart>
     </div>
 
     <div class="chart-wrapper">
-      <h3>Ventas por categoría</h3>
-      <p-chart type="bar" [data]="chartVentasPorCategoria" [options]="optionsV" [responsive]="true"></p-chart>
+      <div class="sticky-subtitle">
+        <h3>Ventas por categoría</h3>
+      </div>
+      <p-chart class="chart-son" type="bar" [data]="chartVentasPorCategoria" [options]="chartOptionsV" [responsive]="true"></p-chart>
     </div>
 
     <div class="chart-wrapper">
-      <h3>Ventas por almacén</h3>
-      <p-chart type="bar" [data]="chartVentasPorAlmacen" [options]="optionsV" [responsive]="true"></p-chart>
+      <div class="sticky-subtitle">
+        <h3>Ventas por almacén</h3>
+      </div>
+      <p-chart class="chart-son" type="bar" [data]="chartVentasPorAlmacen" [options]="chartOptionsV" [responsive]="true"></p-chart>
     </div>
 
     <div class="chart-wrapper">
-      <h3>Ranking de empleados</h3>
-      <p-chart type="bar" [data]="chartRankingEmpleados" [options]="optionsV" [responsive]="true"></p-chart>
+      <div class="sticky-subtitle">
+        <h3>Ranking de empleados</h3>
+      </div>
+      <p-chart class="chart-son" type="bar" [data]="chartRankingEmpleados" [options]="chartOptionsV" [responsive]="true"></p-chart>
     </div>
 
     <div class="chart-wrapper">
-      <h3>Top 5 productos más vendidos</h3>
-      <p-chart type="bar" [data]="chartRankingProductos" [options]="optionsHorizontal" [responsive]="true"></p-chart>
+      <div class="sticky-subtitle">
+        <h3>Top 5 productos más vendidos</h3>
+      </div>
+      <p-chart class="chart-son" type="bar" [data]="chartRankingProductos" [options]="optionsHorizontal" [responsive]="true"></p-chart>
     </div>
 </div>

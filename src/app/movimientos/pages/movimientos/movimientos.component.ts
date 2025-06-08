@@ -19,6 +19,8 @@ import { Transaction, TransactionType } from '../../model/transaction.model';
 import { TransactionService } from '../../services/transaction.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { BadgeModule } from 'primeng/badge';
+import { DialogService } from 'primeng/dynamicdialog';
+import { DetalleDialogComponent } from '../../components/detalle-dialog/detalle-dialog.component';
 
 @Component({
   selector: 'app-movimientos',
@@ -37,7 +39,7 @@ import { BadgeModule } from 'primeng/badge';
     InputTextModule,
     BadgeModule
   ],
-  providers: [MessageService],
+  providers: [MessageService, DialogService],
   templateUrl: './movimientos.component.html',
   styleUrls: ['./movimientos.component.scss']
 })
@@ -99,7 +101,8 @@ export class MovimientosComponent implements OnInit {
               private inventoryService: InventoryService, 
               private authService: AuthService,
               private warehouseService: WarehouseService,
-              private transactionService: TransactionService) {}
+              private transactionService: TransactionService,
+              private dialogService: DialogService ) {}
 
   async ngOnInit(): Promise<void> {
     if(this.authService.isAdmin()) {
@@ -203,5 +206,14 @@ export class MovimientosComponent implements OnInit {
         });
       }
     }
+  }
+
+  verDetalleMovimiento(movimiento: Transaction) {
+   this.dialogService.open(DetalleDialogComponent, {
+      header: 'Detalles del Movimiento',
+      width: '700px',
+      data: movimiento,
+      dismissableMask: true
+    });
   }
 }

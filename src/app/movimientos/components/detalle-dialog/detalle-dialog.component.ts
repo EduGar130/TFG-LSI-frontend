@@ -12,23 +12,24 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { User } from '../../../auth/model/user.model';
+import { Transaction, TransactionType } from '../../model/transaction.model';
 
 @Component({
   selector: 'app-detalle-usuario-dialog',
   standalone: true,
-  templateUrl: './detalle-usuario-dialog.component.html',
-  styleUrls: ['./detalle-usuario-dialog.component.scss'],
+  templateUrl: './detalle-dialog.component.html',
+  styleUrls: ['./detalle-dialog.component.scss'],
   imports: [CommonModule, ButtonModule]
 })
-export class DetalleUsuarioDialogComponent {
-  usuario: User;
+export class DetalleDialogComponent {
+  movimiento: Transaction;
+  transactionType = TransactionType;
 
   constructor(
     public dialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig
   ) {
-    this.usuario = config.data;
+    this.movimiento = config.data;
   }
 
   cerrar(): void {

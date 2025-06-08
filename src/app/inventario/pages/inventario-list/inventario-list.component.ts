@@ -21,13 +21,18 @@ import { DetalleProductoDialogComponent } from '../../components/detalle-product
 import { InventoryService } from '../../services/inventario.service';
 import { Inventory } from '../../model/inventory.model';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
-import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
+import { FileUploadModule } from 'primeng/fileupload';
 import { MessageService } from 'primeng/api';
-import { Toast, ToastModule } from 'primeng/toast';
+import { ToastModule } from 'primeng/toast';
 import { TabViewModule } from 'primeng/tabview';
 import { API_URL, PERMISO_MANAGE_INVENTORY } from '../../../common/constants';
 import { AuthService } from '../../../auth/services/auth.service';
 import { Warehouse } from '../../model/warehouse.model';
+import { SpeedDialModule } from 'primeng/speeddial';
+import { BuscarDialogComponent } from '../../components/busqueda-dialog/busqueda-dialog.component';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { TabsModule } from 'primeng/tabs';
 
 @Component({
   selector: 'app-inventario-list',
@@ -42,7 +47,10 @@ import { Warehouse } from '../../model/warehouse.model';
     InputTextModule,
     FileUploadModule,
     ToastModule,
-    TabViewModule
+    TabsModule,
+    SpeedDialModule,
+    InputGroupModule, 
+    InputGroupAddonModule
   ],
   providers: [DialogService, MessageService]
 })
@@ -57,6 +65,28 @@ export class InventarioListComponent implements OnInit {
   productosPorCategoria: { [key: string]: Inventory[] } = {};
 
   uploadUrl: string = `${API_URL}/inventory/import-csv`;
+
+   items = [
+    {
+        icon: 'pi pi-download',
+        command: () => {
+            this.descargarCsv();
+            this.messageService.add({ severity: 'success', summary: 'CSV descargado', detail: 'Se ha descargado un CSV con los datos del inventario' });
+        }
+    },
+    {
+        icon: 'pi pi-plus',
+        command: () => {
+            this.abrirDialogoNuevoProducto();
+        }
+    },
+    {
+        icon: 'pi pi-search',
+        command: () => {
+             this.abrirDialogoBusqueda();
+        }
+    }
+  ];
 
   constructor(
     private dialogService: DialogService, 
@@ -133,6 +163,28 @@ export class InventarioListComponent implements OnInit {
           this.ngOnInit();
         });
       }
+    });
+  }
+
+  abrirDialogoBusqueda(): void {
+    const ref = this.dialogService.open(BuscarDialogComponent, {
+      data: { filtro: this.filtro },
+      header: 'Búsqueda',
+      width: '700px',
+      closeOnEscape: true,
+      dismissableMask: true,
+      baseZIndex: 10000,
+      modal: true,
+      closable: true
+    });
+
+    ref.onClose.subscribe((resultado) => {
+      if (!resultado) {
+        this.limpiarFiltro();
+        return;
+      }
+      this.filtro =  resultado;
+      this.aplicarFiltro();
     });
   }
 

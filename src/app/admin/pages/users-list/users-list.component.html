@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>Gestor de usuarios</h2>
+  <h2 class="sticky-title">Gestor de usuarios</h2>
     <div class="buscador-acciones">
     <div class="buscador" style="flex: 1;">
       <p-inputgroup>
@@ -27,20 +27,20 @@
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="username">Usuario <p-sortIcon field="username"></p-sortIcon></th>
-        <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
-        <th pSortableColumn="warehouse.name">Almacén <p-sortIcon field="warehouse.name"></p-sortIcon></th>
-        <th pSortableColumn="role.name">Rol <p-sortIcon field="role.name"></p-sortIcon></th>
+        <th class="optional" pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+        <th class="optional" pSortableColumn="warehouse.name">Almacén <p-sortIcon field="warehouse.name"></p-sortIcon></th>
+        <th class="optional" pSortableColumn="role.name">Rol <p-sortIcon field="role.name"></p-sortIcon></th>
         <th>Acciones</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-usuario>
       <tr  [ngClass]="{'usuario-actual': usuarioActual === usuario.username}">
         <td>{{ usuario.username }}</td>
-        <td>{{ usuario.email }}</td>
-        <td>{{ usuario.warehouse?.name || 'Global' }}</td>
-        <td>{{ usuario.role?.name }}</td>
+        <td class="optional">{{ usuario.email }}</td>
+        <td class="optional">{{ usuario.warehouse?.name || 'Global' }}</td>
+        <td class="optional">{{ usuario.role?.name }}</td>
         <td>
-          <!-- <button pButton icon="pi pi-search" class="p-button-rounded p-button-info p-button-sm" (click)="abrirDetalleUsuario(usuario)"></button> -->
+          <button pButton icon="pi pi-search" class="p-button-rounded p-button-info p-button-sm detalle" (click)="abrirDetalleUsuario(usuario)"></button>
           <button *ngIf="!(usuarioActual === usuario.username)" pButton icon="pi pi-user-edit" class="p-button-rounded p-button-warning p-button-sm ml-2" (click)="abrirEditarUsuario(usuario)"></button>
           <button *ngIf="!(usuarioActual === usuario.username)" pButton icon="pi pi-user-minus" class="p-button-rounded p-button-danger p-button-sm ml-2" (click)="confirmarEliminarUsuario(usuario)"></button>
         </td>
