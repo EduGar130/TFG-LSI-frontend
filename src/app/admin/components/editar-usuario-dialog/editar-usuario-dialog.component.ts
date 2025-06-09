@@ -57,7 +57,7 @@ export class EditarUsuarioDialogComponent implements OnInit{
     this.isAdmin = this.authService.hasPermiso('full_access');
     this.roleService.getRoles().subscribe((roles) => {
       if (!this.isAdmin) {
-        this.roles = roles.filter(role => role.name !== 'admin');
+        this.roles = roles.filter(role => role.name !== 'admin' && role.name !== 'marketing');
       } else {
         this.roles = roles;
       }

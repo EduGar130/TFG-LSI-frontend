@@ -68,7 +68,7 @@
 
     <div class="field col-12 md:col-6 flex-column">
       <label for="almacen">Almacén</label>
-      <p-select id="almacen" [options]="almacenes" formControlName="warehouse" optionLabel="name" placeholder="Selecciona un almacén"></p-select>
+      <p-select [disabled]="!esAdmin" id="almacen" [options]="almacenes" formControlName="warehouse" optionLabel="name" placeholder="Selecciona un almacén"></p-select>
       <small *ngIf="productoForm.get('warehouse')?.invalid && productoForm.get('warehouse')?.touched" class="p-error">
         El almacén es obligatorio.
       </small>

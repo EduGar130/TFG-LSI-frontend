@@ -22,7 +22,7 @@
   
         <div class="field col-12 md:col-6 flex-column">
           <label for="almacen">Almacén</label>
-          <p-select id="almacen" [options]="almacenes" [(ngModel)]="producto.warehouse" optionLabel="name" placeholder="Selecciona un almacén"></p-select>
+          <p-select [disabled]="!esAdmin" id="almacen" [options]="almacenes" [(ngModel)]="producto.warehouse" optionLabel="name" placeholder="Selecciona un almacén"></p-select>
         </div>
   
         <div class="field col-12 md:col-6 flex-column">

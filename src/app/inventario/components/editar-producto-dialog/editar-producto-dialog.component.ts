@@ -23,6 +23,7 @@ import { WarehouseService } from '../../services/warehouse.service';
 import { SelectModule } from 'primeng/select';
 import { CardModule } from 'primeng/card';
 import { TextareaModule } from 'primeng/textarea';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-editar-producto-dialog',
@@ -43,11 +44,13 @@ import { TextareaModule } from 'primeng/textarea';
 export class EditarProductoDialogComponent implements OnInit {
   producto: Inventory;
   categorias!: Category[];
+  esAdmin: boolean = false;
   almacenes!: Warehouse[];
 
   constructor(
     public dialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig,
+    private authService: AuthService,
     public categoryService: CategoryService,
     public warehouseService: WarehouseService
   ) {
@@ -58,9 +61,18 @@ export class EditarProductoDialogComponent implements OnInit {
     this.categoryService.getCategories().subscribe((data) => {
       this.categorias = data;
     });
-    this.warehouseService.getWarehouses().subscribe((data) => {
-      this.almacenes = data;
-    });
+    if (this.authService.isAdmin()) {
+      this.esAdmin = true;
+      this.warehouseService.getWarehouses().subscribe((data) => {
+        this.almacenes = data;
+      });
+    } else {
+      this.esAdmin = false;
+      this.authService.getLocation().then((warehouse: Warehouse) => {
+        this.almacenes = [warehouse];
+        this.producto.warehouse = warehouse;
+      });
+    }
   }
 
   guardar(): void {

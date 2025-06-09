@@ -3,11 +3,11 @@
 </div>
 <div class="inbox-container" *ngIf="datosCargados && alertas.length > 0; else noAlerts">
     <div class="notif" *ngFor="let alerta of alertas; let i = index">
-            <div class="card-a" [ngClass]="{'active': alerta.activa}" (click)="toggleActiva(alerta)">
-                <button class="bell" *ngIf="!alerta.activa">
+            <div class="card-a" [ngClass]="{'active': !alerta.activa}" (click)="toggleActiva(alerta)">
+                <button class="bell" *ngIf="alerta.activa">
                     <i class="pi pi-bell bell-move"></i>
                 </button>
-                <button class="bell" *ngIf="alerta.activa">
+                <button class="bell" *ngIf="!alerta.activa">
                     <i class="pi pi-flag"></i>
                 </button>
                 <div>

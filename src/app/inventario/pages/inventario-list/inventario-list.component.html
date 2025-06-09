@@ -1,4 +1,4 @@
-<p-speeddial [model]="items" [radius]="120" type="quarter-circle" direction="up-left" [style]="{ position: 'fixed', right: '5%', bottom: '5%', zIndex: '1000' }" />
+<p-speeddial *ngIf="puedeEditar" [model]="items" [radius]="120" type="quarter-circle" direction="up-left" [style]="{ position: 'fixed', right: '5%', bottom: '5%', zIndex: '1000' }" />
 <div class="container">
   <div class="sticky-title">
       <h2>Inventario</h2>

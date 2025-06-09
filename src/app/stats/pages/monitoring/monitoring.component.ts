@@ -28,7 +28,6 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { Warehouse } from '../../../inventario/model/warehouse.model';
 import { Category } from '../../../inventario/model/category.model';
 import { CategoryService } from '../../../inventario/services/category.service';
-import { optionsHorizontal, optionsV, optionsVmb, optionsR } from '../../options';
 
 @Component({
   selector: 'app-estadisticas',
@@ -71,10 +70,159 @@ export class MonitoringComponent implements OnInit {
   productosSeleccionados: Inventory[] = [];
 
   // Opciones de los gráficos
-  optionsHorizontal = optionsHorizontal;
-  optionsV = optionsV;
-  optionsVmb = optionsVmb;
-  optionsR = optionsR;
+  optionsHorizontal = {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
+        },
+        title: {
+          display: true,
+          color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
+        }
+      },
+      y: {
+        ticks: {
+          color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
+        },
+        title: {
+          display: true,
+          color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
+        }
+      }
+    }
+  };
+  
+
+optionsR = {
+  indexAxis: 'x',
+  responsive: true,
+  plugins: {
+    legend: {
+      display: true,
+      labels: {
+        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color') 
+    }
+  },
+  scales: {
+    x: {
+      ticks: {
+        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color') 
+      }
+    },
+    y: {
+      ticks: {
+        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color') 
+      }
+    }
+  }
+}
+}; 
+
+optionsV = {
+  indexAxis: 'x',
+  responsive: true,
+  plugins: {
+    legend: {
+      display: true,
+      labels: {
+        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
+      }
+    },
+  },
+  scales: {
+    x: {
+      ticks: {
+        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
+      },
+      title: {
+        display: true,
+        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
+      }
+    },
+    y: {
+      ticks: {
+        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
+      },
+      title: {
+        display: true,
+        text: 'Cantidad',
+        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color')
+      }
+    }
+  }
+};
+
+optionsVmb = {
+  indexAxis: 'x',
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      display: true,
+      labels: {
+        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color'),
+        boxWidth: 12,
+        font: {
+          size: 0
+        }
+      }
+    },
+    tooltip: {
+      enabled: true,
+      bodyFont: {
+        size: 10
+      },
+      titleFont: {
+        size: 11
+      }
+    }
+  },
+  scales: {
+    x: {
+      ticks: {
+        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color'),
+        maxRotation: 45,
+        minRotation: 30,
+        font: {
+          size: 10
+        }
+      },
+      title: {
+        display: false // menos ruido visual
+      },
+      grid: {
+        display: false // oculta líneas de fondo
+      }
+    },
+    y: {
+      ticks: {
+        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color'),
+        font: {
+          size: 10
+        }
+      },
+      title: {
+        display: true,
+        text: 'Cantidad',
+        color: getComputedStyle(document.documentElement).getPropertyValue('--p-text-color'),
+        font: {
+          size: 11
+        }
+      },
+      grid: {
+        display: false
+      }
+    }
+  }
+};
 
   constructor(
     private inventoryService: InventoryService,
@@ -449,10 +597,10 @@ private hexToRgba(hex: string, alpha: number): string {
   }
 
   get chartOptionsV(): any {
-    return window.innerWidth <= 768 ? optionsHorizontal : optionsV;
+    return window.innerWidth <= 768 ? this.optionsHorizontal : this.optionsV;
   }
   
   get chartOptionsVmb(): any {
-    return window.innerWidth <= 768 ? optionsVmb : optionsV;
+    return window.innerWidth <= 768 ? this.optionsVmb : this.optionsV;
   }
 }

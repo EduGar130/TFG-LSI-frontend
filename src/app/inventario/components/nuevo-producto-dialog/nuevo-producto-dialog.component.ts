@@ -27,6 +27,7 @@ import { Product } from '../../model/product.model';
 import { ProductService } from '../../services/product.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-nuevo-producto-dialog',
@@ -52,6 +53,7 @@ import { ToastModule } from 'primeng/toast';
 export class NuevoProductoDialogComponent implements OnInit {
   productoForm!: FormGroup;
   categorias!: Category[];
+  esAdmin: boolean = false;
   almacenes!: Warehouse[];
   productos!: Product[];
   activeTab: number = 0;
@@ -60,12 +62,13 @@ export class NuevoProductoDialogComponent implements OnInit {
     public dialogRef: DynamicDialogRef,
     public categoryService: CategoryService,
     public warehouseService: WarehouseService,
+    private authService: AuthService,
     public productService: ProductService,
     private fb: FormBuilder,
     private messageService: MessageService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.productoForm = this.fb.group(
       {
         name: [''],
@@ -82,9 +85,18 @@ export class NuevoProductoDialogComponent implements OnInit {
     this.categoryService.getCategories().subscribe((data) => {
       this.categorias = data;
     });
-    this.warehouseService.getWarehouses().subscribe((data) => {
-      this.almacenes = data;
-    });
+    if(this.authService.isAdmin()) {
+      this.esAdmin = true;
+      this.warehouseService.getWarehouses().subscribe((data) => {
+        this.almacenes = data;
+      });
+    }else {
+      let almacen = await this.authService.getLocation();
+      this.almacenes = [almacen];
+      this.productoForm.get('warehouse')?.setValue(almacen);
+      this.productoForm.get('warehouse')?.disable();
+      this.productoForm.get('warehouse')?.updateValueAndValidity();
+    }
     this.productService.getProducts().subscribe((data) => {
       this.productos = data;
     });

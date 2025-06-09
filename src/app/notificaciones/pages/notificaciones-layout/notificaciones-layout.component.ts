@@ -43,7 +43,10 @@ export class NotificacionesLayoutComponent implements OnInit {
         this.alertas = data;
         this.alertas = this.alertas.filter((alerta: Alert) => {
           return alerta;
-        });
+        }).map((alerta: Alert) => ({
+          ...alerta,
+          activa: true
+        }));
         this.datosCargados = true;
       });
       });
