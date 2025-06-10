@@ -9,6 +9,7 @@
  */
 
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,10 @@ export class ThemeService {
 
   private readonly THEME_KEY = 'preferred-theme';
   private readonly DARK_CLASS = 'app-dark';
-
+  
+  private themeSubject = new BehaviorSubject<'light' | 'dark'>(this.getCurrentTheme());
+  theme$ = this.themeSubject.asObservable();
+  
   constructor() {
     this.loadTheme();
   }
@@ -38,6 +42,8 @@ export class ThemeService {
     } else {
       document.documentElement.classList.remove(this.DARK_CLASS);
     }
+
+    this.themeSubject.next(theme);
   }
 
   getCurrentTheme(): 'light' | 'dark' {

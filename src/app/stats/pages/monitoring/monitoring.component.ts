@@ -28,6 +28,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { Warehouse } from '../../../inventario/model/warehouse.model';
 import { Category } from '../../../inventario/model/category.model';
 import { CategoryService } from '../../../inventario/services/category.service';
+import { Subscription } from 'rxjs';
+import { ThemeService } from '../../../shared/services/theme.service';
 
 @Component({
   selector: 'app-estadisticas',
@@ -47,6 +49,8 @@ import { CategoryService } from '../../../inventario/services/category.service';
   styleUrls: ['./monitoring.component.scss']
 })
 export class MonitoringComponent implements OnInit {
+  private themeSub!: Subscription;
+
   cargando: boolean = true;
   movimientos!: Transaction[];
   movimientosFiltrados!: Transaction[];
@@ -224,9 +228,122 @@ optionsVmb = {
   }
 };
 
+private getTextColor(): string {
+  return getComputedStyle(document.documentElement).getPropertyValue('--p-text-color').trim() || '#333';
+}
+
+private getOptionsHorizontal() {
+  const color = this.getTextColor();
+  return {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { display: false }
+    },
+    scales: {
+      x: {
+        ticks: { color },
+        title: { display: true, color }
+      },
+      y: {
+        ticks: { color },
+        title: { display: true, color }
+      }
+    }
+  };
+}
+
+private getOptionsVmb() {
+  const color = this.getTextColor();
+  return {
+    indexAxis: 'x',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        labels: {
+          color,
+          boxWidth: 12,
+          font: { size: 0 }
+        }
+      },
+      tooltip: {
+        enabled: true,
+        bodyFont: { size: 10 },
+        titleFont: { size: 11 }
+      }
+    },
+    scales: {
+      x: {
+        ticks: { color, maxRotation: 45, minRotation: 30, font: { size: 10 } },
+        title: { display: false },
+        grid: { display: false }
+      },
+      y: {
+        ticks: { color, font: { size: 10 } },
+        title: { display: true, text: 'Cantidad', color, font: { size: 11 } },
+        grid: { display: false }
+      }
+    }
+  };
+}
+
+private getOptionsR() {
+  const color = this.getTextColor();
+  return {
+  indexAxis: 'x',
+  responsive: true,
+  plugins: {
+    legend: {
+      display: true,
+      labels: {
+        color 
+    }
+  },
+  scales: {
+    x: {
+      ticks: {
+        color
+      }
+    },
+    y: {
+      ticks: {
+        color
+      }
+    }
+  }
+}
+}; 
+}
+
+private getOptionsV() {
+  const color = this.getTextColor();
+  return {
+    indexAxis: 'x',
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        labels: { color }
+      }
+    },
+    scales: {
+      x: {
+        ticks: { color },
+        title: { display: true, color }
+      },
+      y: {
+        ticks: { color },
+        title: { display: true, text: 'Cantidad', color }
+      }
+    }
+  };
+}
+
   constructor(
     private inventoryService: InventoryService,
-    private authService: AuthService,
+    private themeService: ThemeService,
     private warehouseService: WarehouseService,
     private categoryService: CategoryService,
     private transactionService: TransactionService,
@@ -277,7 +394,29 @@ optionsVmb = {
           this.productosFiltrados = this.productos;
       }); 
       this.cargando = false;
-    });    
+    });  
+    
+    this.themeSub = this.themeService.theme$.subscribe(theme => {
+      this.onThemeChange(theme);
+    });
+  }
+
+  onThemeChange(theme: 'light' | 'dark') {
+    this.optionsHorizontal = this.getOptionsHorizontal();
+    this.optionsV = this.getOptionsV();
+    this.optionsVmb = this.getOptionsVmb();
+    this.optionsR = this.getOptionsR();
+
+    this.prepararChartVentasPorCategoria();
+    this.prepararChartPorTipo();
+    this.prepararChartVentasPorAlmacen();
+    this.prepararChartRankingEmpleados();
+    this.prepararChartRankingProductos();
+    this.obtenerVentasPorSkus(this.productosSeleccionados.map(p => p.product.sku.toString()));
+  }
+  
+  ngOnDestroy(): void {
+    this.themeSub?.unsubscribe();
   }
 
   prepararChartVentasPorCategoria() {

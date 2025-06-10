@@ -126,10 +126,11 @@ export class NavbarComponent implements OnInit {
       });
     }
     items.push({
-        icon: 'pi pi-sun',
+        icon: this.currentTheme === 'dark' ? 'pi pi-moon' : 'pi pi-sun',
         tooltip: 'Cambiar tema',
         tooltipPosition: 'left',
         command: () => {
+          this.selectItem(this.selectedItem?.toString() ?? 'theme');
           this.toggleTheme();
         }
       });
@@ -167,7 +168,7 @@ export class NavbarComponent implements OnInit {
   toggleTheme(): void {
     this.themeService.toggleTheme();
     this.currentTheme = this.themeService.getCurrentTheme();
-    this.items.find(i => i.icon === 'pi pi-sun');
+    this.buildMenu();
   }
 
   logout(): void {
