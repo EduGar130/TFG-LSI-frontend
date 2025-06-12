@@ -102,8 +102,4 @@ export class WelcomeComponent implements OnInit {
   navigateStats(): void {
     this.router.navigate(['/stats']);
   }
-
-  particlesLoaded(event: any): void {
-    console.log(event);
-  }
 }

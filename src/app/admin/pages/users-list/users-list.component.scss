@@ -31,6 +31,9 @@ h2 {
 
 .usuario-actual {
   background-color: var(--p-button-primary-background) !important;
+  color: var(--p-button-primary-color) !important;
+  font-weight: bold;
+  cursor: default;
 }
 
 .buscador {
@@ -73,4 +76,13 @@ h2 {
   padding: 0.5rem 5%; 
   z-index: 100;
   border-bottom: 1px solid var(--p-form-field-border-color);
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  text-align: center;
 }

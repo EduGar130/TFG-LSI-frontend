@@ -26,13 +26,14 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-users',
   standalone: true,
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.scss'],
-  imports: [CommonModule, FormsModule, TableModule, ButtonModule, DropdownModule, InputTextModule, InputGroupModule, InputGroupAddonModule],
+  imports: [CommonModule, FormsModule, TableModule, ButtonModule, DropdownModule, InputTextModule, ProgressSpinnerModule, InputGroupModule, InputGroupAddonModule],
   providers: [DialogService]
 })
 export class UsersListComponent implements OnInit {

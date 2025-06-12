@@ -498,9 +498,7 @@ private getOptionsV() {
       this.productosSeleccionados.splice(id, 1);
     }
     if (this.productosSeleccionados && this.productosSeleccionados.length > 0) {
-      console.log(this.obtenerVentasPorSkus(this.productosSeleccionados.map(p => p.product.sku)));
       this.obtenerVentasPorSkus(this.productosSeleccionados.map(p => p.product.sku.toString()));
-      
     }
   }
 
