@@ -78,13 +78,24 @@ button {
 }
 
 @media (max-width: 768px) {
+  .button-label {
+    display: none;
+  }
+
+  .movimientos-container {
+    padding: 1rem;
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+  }
+
   .flex-container {
     flex-direction: column;
     align-items: stretch;
   }
 
   .accion-container {
-    flex-direction: column;
     align-items: stretch;
   }
 
@@ -137,3 +148,4 @@ button {
     max-width: 65vw;
   }
 }
+

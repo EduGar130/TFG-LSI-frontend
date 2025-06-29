@@ -3,15 +3,15 @@
     <ng-container *ngIf="esManager; else soloRegistrar">
       <p-tabs value="0" aria-label="Opciones de movimientos">
         <p-tablist role="tablist">
-          <p-tab value="0" aria-label="Registrar movimiento">Registrar movimiento</p-tab>
-          <p-tab value="1" aria-label="Consultar movimientos">Consultar movimientos</p-tab>
+          <p-tab value="0" aria-label="Registrar movimiento"><p class="button-label">Registrar movimiento</p><p class="mobile">Registrar</p></p-tab>
+          <p-tab value="1" aria-label="Consultar movimientos"><p class="button-label">Consultar movimientos</p><p class="mobile">Consultar</p></p-tab>
         </p-tablist>
         <p-tabpanels>
           <p-tabpanel value="0">
             <ng-container *ngTemplateOutlet="formularioMovimiento"></ng-container>
           </p-tabpanel>
           <p-tabpanel value="1">
-            <h2 id="heading-consulta">Consulta de movimientos</h2>
+            <h2 id="heading-consulta" class="button-label">Consulta de movimientos</h2>
             <p-table aria-labelledby="heading-consulta" [value]="movimientos" [paginator]="true" [rows]="5"
               [globalFilterFields]="['almacen', 'producto', 'tipo', 'cantidad', 'fecha']">
               <ng-template pTemplate="header">
@@ -109,34 +109,34 @@
         <button
           pButton
           type="button"
-          label="Vender"
           icon="pi pi-shopping-cart"
           (click)="selectVender()"
           [ngClass]="{ 'selected': movimiento.type === TransactionType.SALE }"
-          class="vender"
+          class="vender button"
           [attr.aria-pressed]="movimiento.type === TransactionType.SALE">
+          <span class="p-button-label button-label">Vender</span>
         </button>
 
         <button
           pButton
           type="button"
-          label="Eliminar"
           icon="pi pi-delete-left"
           (click)="selectEliminar()"
           [ngClass]="{ 'selected': movimiento.type === TransactionType.REMOVE }"
-          class="eliminar"
+          class="eliminar button"
           [attr.aria-pressed]="movimiento.type === TransactionType.REMOVE">
+          <span class="p-button-label button-label">Eliminar</span>
         </button>
 
         <button
           pButton
           type="button"
-          label="Reponer"
           icon="pi pi-warehouse"
           (click)="selectReponer()"
           [ngClass]="{ 'selected': movimiento.type === TransactionType.ADD }"
-          class="reponer"
+          class="reponer button"
           [attr.aria-pressed]="movimiento.type === TransactionType.ADD">
+          <span class="p-button-label button-label">Reponer</span>
         </button>
       </div>
 
