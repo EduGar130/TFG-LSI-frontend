@@ -171,6 +171,7 @@ export class MovimientosComponent implements OnInit {
     }
     this.transactionService.addTransaction(this.movimiento).subscribe((movimiento) => {
       this.movimientos.push(movimiento);
+      this.transactionService.notifyTransactionsChanged();
     });;
   }
 

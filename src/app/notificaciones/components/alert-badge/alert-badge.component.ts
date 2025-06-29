@@ -7,6 +7,8 @@ import { CommonModule } from "@angular/common";
 import { PERMISO_VIEW_ALERTS } from "../../../common/constants";
 import { AuthService } from "../../../auth/services/auth.service";
 import { Warehouse } from "../../../inventario/model/warehouse.model";
+import { Subscription } from "rxjs";
+import { TransactionService } from "../../../movimientos/services/transaction.service";
 
 @Component({
   selector: 'app-alert-badge',
@@ -23,16 +25,21 @@ export class AlertBadgeComponent implements OnInit {
   alerts: Alert[] = [];
   isAdmin: boolean = false;
   datosCargados: boolean = false;
+  private transactionsSub!: Subscription;
 
   constructor(
     private alertService: AlertService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private transactionService: TransactionService
   ) {
   }
 
   ngOnInit(): void {
     this.loadAlerts();
+    this.transactionsSub = this.transactionService.transactionsChanged$.subscribe(() => {
+      this.loadAlerts();
+    });
   }
 
   async loadAlerts(): Promise<void> {
