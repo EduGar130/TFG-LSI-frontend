@@ -1,12 +1,13 @@
 <p-toast></p-toast>
 <p-card>
   <form [formGroup]="productoForm" class="p-fluid grid form-grid">
-    <p-tabs [(value)]="activeTab" (valueChange)="onTabChange(activeTab)" class="">
-      <p-tablist>
-          <p-tab value="0">Crear producto</p-tab>
-          <p-tab value="1">Utilizar producto existente</p-tab>
-      </p-tablist>
-      <p-tabpanels>
+    <p-card class="mb">
+      <p-tabs [(value)]="activeTab" (valueChange)="onTabChange(activeTab)" class="">
+        <p-tablist>
+            <p-tab value="0">Crear producto</p-tab>
+            <p-tab value="1">Utilizar producto existente</p-tab>
+        </p-tablist>
+        <p-tabpanels>
           <p-tabpanel value="0">
             <div class="field col-12 md:col-6 flex-column">
               <label for="nombre">Nombre del Producto</label>
@@ -65,6 +66,7 @@
           </p-tabpanel>
         </p-tabpanels>
       </p-tabs>
+    </p-card>
 
     <div class="field col-12 md:col-6 flex-column">
       <label for="almacen">Almacén</label>

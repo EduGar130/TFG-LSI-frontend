@@ -30,7 +30,6 @@ export class NotificacionesLayoutComponent implements OnInit {
 
   constructor(private inventoryService: InventoryService, 
               private authService: AuthService,
-              private warehouseService: WarehouseService,
               private alertService: AlertService) {}
 
   async ngOnInit(): Promise<void> {

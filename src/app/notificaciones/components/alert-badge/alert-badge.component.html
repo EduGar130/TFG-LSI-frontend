@@ -1,0 +1,3 @@
+<div *ngIf="alerts.length > 0" class="alert-container" (click)="routeAlerts()" role="button" aria-label="Ver alertas" tabindex="0" style="cursor: pointer">
+    <i class="pi pi-bell" pBadge badgeSize="small" [value]="alerts.length" severity="danger" style="font-size: 1.5rem"></i>
+</div>

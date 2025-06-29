@@ -8,5 +8,8 @@
   Derechos: Este código es propiedad de Eduardo García Romera y se reserva el derecho de uso, distribución y modificación.
 -->
 
-<app-navbar *ngIf="isAuthenticated$ | async"></app-navbar>
 <router-outlet></router-outlet>
+<div *ngIf="isAuthenticated$ | async">
+  <app-alert-badge></app-alert-badge>
+  <app-navbar></app-navbar>
+</div>

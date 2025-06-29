@@ -14,19 +14,23 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { AuthService } from './auth/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { AlertBadgeComponent } from "./notificaciones/components/alert-badge/alert-badge.component";
+import { AlertService } from './notificaciones/services/alerts.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, CommonModule]
+  imports: [RouterOutlet, NavbarComponent, CommonModule, AlertBadgeComponent]
 })
 export class AppComponent implements OnInit {
   isAuthenticated$: Observable<boolean> = new BehaviorSubject<boolean>(false);
+  hasAlerts$: Observable<boolean> = new BehaviorSubject<boolean>(false);
 
    constructor(
     private authService: AuthService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
